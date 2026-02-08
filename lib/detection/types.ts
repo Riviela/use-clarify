@@ -18,6 +18,7 @@ export interface DetectionResult {
     overall: OverallScore;
     paragraphs: ParagraphAnalysis[];
     disclaimer: string;
+    detectedLanguage?: string;
 }
 
 export interface HeuristicScores {
