@@ -64,11 +64,11 @@ export function ParagraphAnalysis({ paragraphs }: ParagraphAnalysisProps) {
             case 'human':
                 return 'bg-background border-border'; // Normal görünüm
             case 'ai_refined':
-                return 'bg-amber-50 border-amber-200 dark:bg-amber-950/20 dark:border-amber-900';
+                return 'bg-amber-100/70 border-amber-200 dark:bg-amber-900/40 dark:border-amber-800';
             case 'ai_generated':
-                return 'bg-red-50 border-red-200 dark:bg-red-950/20 dark:border-red-900';
+                return 'bg-red-100/70 border-red-200 dark:bg-red-900/40 dark:border-red-800';
             default:
-                return 'bg-gray-50 border-gray-200 dark:bg-gray-950/20 dark:border-gray-900';
+                return 'bg-gray-50 border-gray-200 dark:bg-gray-900/40 dark:border-gray-800';
         }
     };
 
@@ -160,24 +160,42 @@ export function ParagraphAnalysis({ paragraphs }: ParagraphAnalysisProps) {
                             </TooltipTrigger>
 
                             {/* Tooltip Content */}
-                            {isAi && !isHumanized && (
-                                <TooltipContent className="max-w-xs">
-                                    {isPremium ? (
-                                        <div className="space-y-1">
-                                            <p className="font-semibold text-sm">Detection Reason:</p>
-                                            <p className="text-sm">{para.reason || "AI patterns detected."}</p>
+                            {isAi && (
+                                <TooltipContent className="max-w-sm p-4 animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2">
+                                    <div className="space-y-3">
+                                        <div className="flex items-center justify-between border-b pb-2">
+                                            <span className="font-semibold text-sm flex items-center gap-2">
+                                                {para.label === 'ai_generated' ? (
+                                                    <span className="text-red-600 flex items-center gap-1">
+                                                        <Sparkles className="h-4 w-4" /> AI Detected
+                                                    </span>
+                                                ) : (
+                                                    <span className="text-amber-600 flex items-center gap-1">
+                                                        <Sparkles className="h-4 w-4" /> AI Refined
+                                                    </span>
+                                                )}
+                                            </span>
+                                            {!isPremium && <Badge className="text-[10px] h-5 px-1.5 border border-input bg-background hover:bg-accent text-foreground font-normal"><Lock className="h-3 w-3 mr-1" /> Premium</Badge>}
                                         </div>
-                                    ) : (
-                                        <div className="space-y-2 text-center p-1">
-                                            <div className="blur-sm select-none text-xs my-1">
-                                                Lorem ipsum detector reason hidden text for premium users only.
+
+                                        {isPremium ? (
+                                            <div className="space-y-1">
+                                                <p className="text-sm leading-relaxed text-muted-foreground">{para.reason || "Yapay zeka kalıpları ve düşük çeşitlilik tespit edildi."}</p>
                                             </div>
-                                            <div className="flex items-center justify-center gap-1 text-xs font-semibold text-primary">
-                                                <Lock className="h-3 w-3" />
-                                                Upgrade to see why
+                                        ) : (
+                                            <div className="space-y-2 relative overflow-hidden rounded-md p-2 bg-muted/50">
+                                                <div className="blur-sm select-none text-sm text-muted-foreground leading-relaxed">
+                                                    {para.reason || "Metin içerisinde yapay zeka tarafından üretildiğine dair dilbilgisel işaretler, tekrarlayan kalıplar ve düşük entropi tespit edildi."}
+                                                </div>
+                                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/20 backdrop-blur-[1px]">
+                                                    <div className="bg-background/90 px-3 py-1.5 rounded-full shadow-sm border text-xs font-semibold flex items-center gap-1.5 hover:bg-background transition-colors cursor-pointer">
+                                                        <Lock className="h-3 w-3" />
+                                                        Sebebi görmek için yükseltin
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
+                                        )}
+                                    </div>
                                 </TooltipContent>
                             )}
                         </Tooltip>
