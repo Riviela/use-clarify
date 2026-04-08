@@ -1,54 +1,92 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { Toaster } from '@/components/ui/sonner';
+import { createClient } from '@/utils/supabase/server';
+import { Navbar } from '@/components/navbar';
+import { User } from '@supabase/supabase-js';
 
-const inter = Inter({ subsets: ['latin'] });
+interface UserProfile {
+  plan_type: string;
+  full_name: string | null;
+  avatar_url: string | null;
+}
+
+const geistSans = Geist({
+    subsets: ['latin'],
+    variable: '--font-geist-sans',
+});
+
+const geistMono = Geist_Mono({
+    subsets: ['latin'],
+    variable: '--font-geist-mono',
+});
 
 export const metadata: Metadata = {
-    title: 'AI Content Detector - Analyze Text for AI-Generated Content',
+    title: 'Clarify — AI Detection & Humanization Platform',
     description:
-        'Professional AI content detection tool that analyzes text to classify as Human-written, AI-Generated, or AI-Refined with paragraph-level insights.',
+        'Clarify is the definitive AI text analysis platform. Detect AI-generated content with surgical precision, humanize robotic text, and refine your writing — all in one place.',
     keywords: [
+        'Clarify',
         'AI detector',
         'AI content detection',
-        'plagiarism checker',
-        'AI text analyzer',
-        'content authenticity',
+        'AI humanizer',
+        'grammar checker',
+        'text summarizer',
+        'tone changer',
+        'paraphraser',
+        'hallucination detector',
     ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    let user: User | null = null;
+    let userProfile: UserProfile | null = null;
+
+    try {
+        const supabase = await createClient();
+        const { data: { user: authUser } } = await supabase.auth.getUser();
+        user = authUser;
+
+        // Fetch user profile from database
+        if (user) {
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('plan_type, full_name, avatar_url')
+                .eq('id', user.id)
+                .single();
+            
+            if (profile) {
+                userProfile = profile as UserProfile;
+            }
+        }
+    } catch (error) {
+        // Supabase not configured - continue without auth
+        console.warn('Supabase auth not available, continuing without authentication');
+    }
+
     return (
         <html lang="en">
-            <body className={inter.className}>
-                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
-                    <header className="border-b bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm sticky top-0 z-50">
-                        <div className="container mx-auto px-4 py-4">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                                        AI Content Detector
-                                    </h1>
-                                    <p className="text-sm text-muted-foreground">
-                                        Professional text analysis powered by advanced heuristics
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </header>
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
+            >
+                <div className="min-h-screen bg-white dark:bg-zinc-950">
+                    <Navbar user={user} userProfile={userProfile} />
 
-                    <main className="container mx-auto px-4 py-8" role="main">
+                    <main className="container mx-auto px-4 py-12" role="main">
                         {children}
                     </main>
 
-                    <footer className="border-t bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm mt-16">
-                        <div className="container mx-auto px-4 py-6">
-                            <p className="text-center text-sm text-muted-foreground">
-                                © 2026 AI Content Detector. Built with Next.js and shadcn/ui.
+                    <Toaster />
+
+                    <footer className="border-t border-zinc-100 dark:border-zinc-800 mt-24">
+                        <div className="container mx-auto px-4 py-8">
+                            <p className="text-center text-sm text-zinc-400">
+                                © 2026 Clarify. All rights reserved.
                             </p>
                         </div>
                     </footer>

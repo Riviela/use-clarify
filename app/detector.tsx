@@ -42,16 +42,16 @@ export function Detector() {
     };
 
     return (
-        <div className="max-w-5xl mx-auto space-y-8">
+        <div className="max-w-5xl mx-auto space-y-10">
             {/* Introduction */}
             <div className="text-center space-y-4">
-                <h2 className="text-3xl font-bold tracking-tight">
-                    Analyze Your Text for AI-Generated Content
+                <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-white">
+                    Know Exactly What You&apos;re Reading.
                 </h2>
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    Upload or paste text to detect if it was written by a human,
-                    AI-generated, or AI-refined. Get paragraph-level analysis with
-                    confidence scores.
+                <p className="text-base text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+                    Clarify&apos;s precision engine scans every paragraph to surface
+                    what&apos;s human, what&apos;s AI-generated, and what&apos;s been refined.
+                    Paragraph-level verdicts. Real confidence scores. Zero guesswork.
                 </p>
             </div>
 
@@ -63,7 +63,7 @@ export function Detector() {
 
             {/* Error Display */}
             {error && (
-                <div className="p-4 rounded-lg bg-destructive/10 border border-destructive text-destructive text-sm">
+                <div className="p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm">
                     <strong>Error:</strong> {error}
                 </div>
             )}

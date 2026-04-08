@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 
         // Run Groq analysis directly (No more rule-based fallback)
         // Loglama lib/ai.ts içinde yapılıyor
-        const result = await analyzeWithAI(body.text);
+        const result = await analyzeWithAI(body.text, body.language);
 
         return NextResponse.json(result);
     } catch (error: any) {

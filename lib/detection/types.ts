@@ -1,4 +1,4 @@
-export type ClassificationLabel = 'human' | 'ai_generated' | 'ai_refined';
+export type ClassificationLabel = 'human' | 'ai_generated';
 
 export interface ParagraphAnalysis {
     index: number;
@@ -11,7 +11,6 @@ export interface ParagraphAnalysis {
 export interface OverallScore {
     human: number;
     aiGenerated: number;
-    aiRefined: number;
 }
 
 export interface DetectionResult {
