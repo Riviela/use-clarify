@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -29,8 +29,19 @@ function LoginPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const redirect = searchParams.get('redirect') || '/';
+    const oauthError = searchParams.get('error');
 
     const supabase = createClient();
+
+    // Surface OAuth callback errors back to the user
+    useEffect(() => {
+        if (!oauthError) return;
+        const messages: Record<string, string> = {
+            auth: 'Sign-in failed. Please try again.',
+            missing_code: 'Sign-in did not complete. Check your provider configuration.',
+        };
+        toast.error(messages[oauthError] || decodeURIComponent(oauthError));
+    }, [oauthError]);
 
     const handleEmailAuth = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -106,7 +117,7 @@ function LoginPageContent() {
             const { error } = await supabase.auth.signInWithOAuth({
                 provider,
                 options: {
-                    redirectTo: `${window.location.origin}/auth/callback?redirect=${redirect}`,
+                    redirectTo: `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirect)}`,
                 },
             });
 
