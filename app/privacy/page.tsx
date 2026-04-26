@@ -108,8 +108,8 @@ export default function PrivacyPolicyPage() {
             Depending on your jurisdiction, you may have the right to access, correct, or delete
             your personal data. You may also request a copy of the data we hold about you. To
             exercise these rights, contact us at{' '}
-            <a href="mailto:support@use-clarify.com" className="text-cyan-500 hover:text-cyan-600 underline">
-              support@use-clarify.com
+            <a href="mailto:info@use-clarify.com" className="text-cyan-500 hover:text-cyan-600 underline">
+              info@use-clarify.com
             </a>.
           </p>
         </section>
@@ -140,8 +140,8 @@ export default function PrivacyPolicyPage() {
           </h2>
           <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
             If you have questions or concerns about this Privacy Policy, please contact us at{' '}
-            <a href="mailto:support@use-clarify.com" className="text-cyan-500 hover:text-cyan-600 underline">
-              support@use-clarify.com
+            <a href="mailto:info@use-clarify.com" className="text-cyan-500 hover:text-cyan-600 underline">
+              info@use-clarify.com
             </a>.
           </p>
         </section>

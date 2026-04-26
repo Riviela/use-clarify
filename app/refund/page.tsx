@@ -56,8 +56,8 @@ export default function RefundPolicyPage() {
           <ul className="list-disc pl-5 space-y-2 text-zinc-600 dark:text-zinc-400">
             <li>
               Email us at{' '}
-              <a href="mailto:support@use-clarify.com" className="text-cyan-500 hover:text-cyan-600 underline">
-                support@use-clarify.com
+              <a href="mailto:info@use-clarify.com" className="text-cyan-500 hover:text-cyan-600 underline">
+                info@use-clarify.com
               </a>{' '}
               with the subject line &quot;Refund Request&quot;.
             </li>
@@ -117,8 +117,8 @@ export default function RefundPolicyPage() {
           </h2>
           <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
             For any questions regarding refunds or billing, reach out to us at{' '}
-            <a href="mailto:support@use-clarify.com" className="text-cyan-500 hover:text-cyan-600 underline">
-              support@use-clarify.com
+            <a href="mailto:info@use-clarify.com" className="text-cyan-500 hover:text-cyan-600 underline">
+              info@use-clarify.com
             </a>.
           </p>
         </section>

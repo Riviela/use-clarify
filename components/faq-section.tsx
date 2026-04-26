@@ -43,7 +43,7 @@ const faqItems: FAQItem[] = [
   {
     question: 'Do you offer refunds?',
     answer:
-      'Yes. We offer a 7-day money-back guarantee on first-time subscriptions. If you\'re not satisfied, contact support@use-clarify.com within 7 days of your purchase for a full refund.',
+      'Yes. We offer a 7-day money-back guarantee on first-time subscriptions. If you\'re not satisfied, contact info@use-clarify.com within 7 days of your purchase for a full refund.',
   },
   {
     question: 'What languages does Clarify support?',

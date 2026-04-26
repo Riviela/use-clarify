@@ -115,11 +115,11 @@ export function Footer() {
             <ul className="space-y-2.5">
               <li>
                 <a
-                  href="mailto:support@use-clarify.com"
+                  href="mailto:info@use-clarify.com"
                   className="inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
                 >
                   <Mail className="w-4 h-4 flex-shrink-0" />
-                  support@use-clarify.com
+                  info@use-clarify.com
                 </a>
               </li>
               <li>

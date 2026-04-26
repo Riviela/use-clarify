@@ -155,8 +155,8 @@ export default function TermsOfServicePage() {
           </h2>
           <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
             For questions about these Terms, please contact us at{' '}
-            <a href="mailto:support@use-clarify.com" className="text-cyan-500 hover:text-cyan-600 underline">
-              support@use-clarify.com
+            <a href="mailto:info@use-clarify.com" className="text-cyan-500 hover:text-cyan-600 underline">
+              info@use-clarify.com
             </a>.
           </p>
         </section>
