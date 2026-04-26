@@ -111,7 +111,12 @@ export default async function RootLayout({
                 .single();
             
             if (profile) {
-                userProfile = profile as UserProfile;
+                const typedProfile = profile as UserProfile;
+                // Admins automatically get premium privileges
+                userProfile = {
+                    ...typedProfile,
+                    plan_type: typedProfile.is_admin ? 'premium' : typedProfile.plan_type,
+                };
             }
         }
     } catch {

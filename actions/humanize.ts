@@ -1,33 +1,13 @@
 'use server';
 
 import Groq from 'groq-sdk';
-import { createClient } from '@/utils/supabase/server';
-import type { PlanType } from '@/lib/user-plan';
+import { getUserPlanType } from '@/lib/user-plan';
 
 const apiKey = process.env.GROQ_API_KEY || '';
 
 const groq = new Groq({
     apiKey: apiKey,
 });
-
-async function getUserPlanType(): Promise<PlanType> {
-    try {
-        const supabase = await createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        
-        if (!user) return 'free';
-        
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('plan_type')
-            .eq('id', user.id)
-            .single();
-        
-        return (profile?.plan_type === 'premium') ? 'premium' : 'free';
-    } catch {
-        return 'free';
-    }
-}
 
 export interface HumanizeResult {
     success: boolean;

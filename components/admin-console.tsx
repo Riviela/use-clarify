@@ -73,8 +73,8 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
     <div className="relative min-h-[80vh]">
       {/* Background grid effect */}
       <div className="absolute inset-0 -z-10 opacity-50 pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(34,211,238,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(34,211,238,0.08)_1px,transparent_1px)] bg-[size:48px_48px]" />
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(182,0,0,0.10)_1px,transparent_1px),linear-gradient(to_bottom,rgba(182,0,0,0.10)_1px,transparent_1px)] bg-[size:48px_48px]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#B60000]/10 via-transparent to-transparent" />
       </div>
 
       <div className="max-w-7xl mx-auto space-y-8">
@@ -91,10 +91,10 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
               transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
               className="relative"
             >
-              <Shield className="w-7 h-7 text-cyan-500" strokeWidth={2.5} />
-              <div className="absolute inset-0 blur-xl bg-cyan-500/40" />
+              <Shield className="w-7 h-7 text-[#B60000]" strokeWidth={2.5} />
+              <div className="absolute inset-0 blur-xl bg-[#B60000]/50" />
             </motion.div>
-            <Badge className="bg-gradient-to-r from-cyan-500 via-cyan-400 to-cyan-500 text-zinc-950 border-0 font-bold tracking-widest text-[10px] px-2.5 py-0.5 shadow-lg shadow-cyan-500/40">
+            <Badge className="bg-[#B60000] text-white border-0 font-bold tracking-widest text-[10px] px-2.5 py-0.5 shadow-lg shadow-[#B60000]/50">
               ADMIN
             </Badge>
             <span className="font-mono text-xs text-zinc-400 dark:text-zinc-600 tracking-widest">
@@ -103,11 +103,11 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
           </div>
 
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white">
-            Admin <span className="bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-400 bg-clip-text text-transparent">Console</span>
+            Admin <span className="bg-gradient-to-r from-[#B60000] via-[#ff3333] to-[#B60000] bg-clip-text text-transparent">Console</span>
           </h1>
 
           <p className="mt-2 text-zinc-500 dark:text-zinc-400 font-mono text-sm">
-            <span className="text-cyan-500">$</span> logged_in_as: <span className="text-zinc-700 dark:text-zinc-300">{adminName}</span>{' '}
+            <span className="text-[#B60000]">$</span> logged_in_as: <span className="text-zinc-700 dark:text-zinc-300">{adminName}</span>{' '}
             <span className="text-zinc-400 dark:text-zinc-600">&lt;{adminEmail}&gt;</span>
           </p>
         </motion.div>
@@ -118,7 +118,7 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
             icon={<Users className="w-4 h-4" />}
             label="Total Users"
             value={stats.totalUsers}
-            accent="bg-gradient-to-r from-cyan-500 via-cyan-400 to-transparent"
+            accent="bg-gradient-to-r from-[#B60000] via-red-400 to-transparent"
             delay={0.1}
           />
           <StatCard
@@ -148,7 +148,7 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
             <Card className="border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 backdrop-blur">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <Server className="w-4 h-4 text-cyan-500" />
+                  <Server className="w-4 h-4 text-[#B60000]" />
                   System Status
                 </CardTitle>
               </CardHeader>
@@ -171,7 +171,7 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
             <Card className="border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 backdrop-blur h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <TerminalSquare className="w-4 h-4 text-cyan-500" />
+                  <TerminalSquare className="w-4 h-4 text-[#B60000]" />
                   Quick Links
                 </CardTitle>
               </CardHeader>
@@ -180,49 +180,49 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
                   href="https://supabase.com/dashboard/project/yvwwrkahqbxvrifqexeg"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-colors group"
+                  className="flex items-center justify-between p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-[#B60000]/50 hover:bg-[#B60000]/5 transition-colors group"
                 >
                   <div className="flex items-center gap-3">
-                    <Database className="w-4 h-4 text-cyan-500" />
+                    <Database className="w-4 h-4 text-[#B60000]" />
                     <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Supabase Dashboard</span>
                   </div>
-                  <span className="text-xs text-zinc-400 group-hover:text-cyan-500 transition-colors">↗</span>
+                  <span className="text-xs text-zinc-400 group-hover:text-[#B60000] transition-colors">↗</span>
                 </a>
                 <a
                   href="https://app.lemonsqueezy.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-colors group"
+                  className="flex items-center justify-between p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-[#B60000]/50 hover:bg-[#B60000]/5 transition-colors group"
                 >
                   <div className="flex items-center gap-3">
-                    <Zap className="w-4 h-4 text-cyan-500" />
+                    <Zap className="w-4 h-4 text-[#B60000]" />
                     <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Lemon Squeezy</span>
                   </div>
-                  <span className="text-xs text-zinc-400 group-hover:text-cyan-500 transition-colors">↗</span>
+                  <span className="text-xs text-zinc-400 group-hover:text-[#B60000] transition-colors">↗</span>
                 </a>
                 <a
                   href="https://console.groq.com/playground"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-colors group"
+                  className="flex items-center justify-between p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-[#B60000]/50 hover:bg-[#B60000]/5 transition-colors group"
                 >
                   <div className="flex items-center gap-3">
-                    <Activity className="w-4 h-4 text-cyan-500" />
+                    <Activity className="w-4 h-4 text-[#B60000]" />
                     <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Groq Console</span>
                   </div>
-                  <span className="text-xs text-zinc-400 group-hover:text-cyan-500 transition-colors">↗</span>
+                  <span className="text-xs text-zinc-400 group-hover:text-[#B60000] transition-colors">↗</span>
                 </a>
                 <a
                   href="https://vercel.com/dashboard"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-colors group"
+                  className="flex items-center justify-between p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-[#B60000]/50 hover:bg-[#B60000]/5 transition-colors group"
                 >
                   <div className="flex items-center gap-3">
-                    <Server className="w-4 h-4 text-cyan-500" />
+                    <Server className="w-4 h-4 text-[#B60000]" />
                     <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Vercel Dashboard</span>
                   </div>
-                  <span className="text-xs text-zinc-400 group-hover:text-cyan-500 transition-colors">↗</span>
+                  <span className="text-xs text-zinc-400 group-hover:text-[#B60000] transition-colors">↗</span>
                 </a>
               </CardContent>
             </Card>
@@ -237,7 +237,7 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
           className="border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-8"
         >
           <p className="text-xs font-mono text-zinc-400 dark:text-zinc-600 text-center">
-            <span className="text-cyan-500">●</span> SECURE_SESSION  ·  Restricted access  ·  All actions logged
+            <span className="text-[#B60000]">●</span> SECURE_SESSION  ·  Restricted access  ·  All actions logged
           </p>
         </motion.div>
       </div>

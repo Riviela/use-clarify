@@ -32,7 +32,7 @@ export async function getUserPlan(userId?: string): Promise<UserPlan | null> {
 
     const { data: profile, error } = await supabase
       .from('profiles')
-      .select('plan_type')
+      .select('plan_type, is_admin')
       .eq('id', userId)
       .single();
 
@@ -41,7 +41,9 @@ export async function getUserPlan(userId?: string): Promise<UserPlan | null> {
       return null;
     }
 
-    const planType: PlanType = (profile.plan_type === 'premium') ? 'premium' : 'free';
+    // Admins always have premium privileges, regardless of subscription state
+    const planType: PlanType =
+      profile.is_admin === true || profile.plan_type === 'premium' ? 'premium' : 'free';
 
     return {
       planType,

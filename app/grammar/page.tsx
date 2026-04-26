@@ -22,10 +22,10 @@ export default function GrammarPage() {
       if (user) {
         const { data: profile } = await supabase
           .from('profiles')
-          .select('plan_type')
+          .select('plan_type, is_admin')
           .eq('id', user.id)
           .single();
-        setPlanType(profile?.plan_type === 'premium' ? 'premium' : 'free');
+        setPlanType((profile?.is_admin === true || profile?.plan_type === 'premium') ? 'premium' : 'free');
       }
     }
     fetchPlanType();

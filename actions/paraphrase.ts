@@ -1,7 +1,6 @@
 'use server';
 
-import { createClient } from '@/utils/supabase/server';
-import type { PlanType } from '@/lib/user-plan';
+import { getUserPlanType } from '@/lib/user-plan';
 
 export interface ParaphraseResult {
     success: boolean;
@@ -13,27 +12,8 @@ export interface ParaphraseResult {
 
 const FREE_TIER_WORD_LIMIT = 100;
 
-async function fetchUserPlanType(): Promise<PlanType> {
-    try {
-        const supabase = await createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        
-        if (!user) return 'free';
-        
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('plan_type')
-            .eq('id', user.id)
-            .single();
-        
-        return (profile?.plan_type === 'premium') ? 'premium' : 'free';
-    } catch {
-        return 'free';
-    }
-}
-
 export async function paraphraseText(text: string): Promise<ParaphraseResult> {
-    const planType = await fetchUserPlanType();
+    const planType = await getUserPlanType();
 
     try {
         const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;

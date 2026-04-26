@@ -29,11 +29,11 @@ export function TextInput({ onAnalyze, isLoading }: TextInputProps) {
             if (user) {
                 const { data: profile } = await supabase
                     .from('profiles')
-                    .select('plan_type')
+                    .select('plan_type, is_admin')
                     .eq('id', user.id)
                     .single();
                 
-                setMaxWords(profile?.plan_type === 'premium' ? 3000 : 500);
+                setMaxWords((profile?.is_admin === true || profile?.plan_type === 'premium') ? 3000 : 500);
             }
         }
         fetchUserPlan();

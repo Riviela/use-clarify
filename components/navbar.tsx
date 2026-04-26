@@ -131,7 +131,7 @@ export function Navbar({ user, userProfile }: NavbarProps) {
                                             >
                                                 <Link href="/admin">
                                                     <Badge
-                                                        className="hidden sm:flex items-center gap-1 bg-gradient-to-r from-cyan-500 via-cyan-400 to-cyan-500 text-zinc-950 border-0 font-bold text-xs px-3 py-1 shadow-lg shadow-cyan-500/30 cursor-pointer hover:shadow-cyan-500/50 transition-shadow"
+                                                        className="hidden sm:flex items-center gap-1 bg-[#B60000] text-white border-0 font-bold text-xs px-3 py-1 shadow-lg shadow-[#B60000]/40 cursor-pointer hover:bg-[#9a0000] hover:shadow-[#B60000]/60 transition-all"
                                                     >
                                                         <motion.div
                                                             animate={{ rotate: [0, 360] }}
@@ -191,7 +191,7 @@ export function Navbar({ user, userProfile }: NavbarProps) {
                                                     </p>
                                                     {isAdmin && (
                                                         <Badge
-                                                            className="mt-1.5 flex sm:hidden w-fit items-center gap-1 bg-gradient-to-r from-cyan-500 via-cyan-400 to-cyan-500 text-zinc-950 border-0 font-bold text-[10px] px-2 py-0.5"
+                                                            className="mt-1.5 flex sm:hidden w-fit items-center gap-1 bg-[#B60000] text-white border-0 font-bold text-[10px] px-2 py-0.5"
                                                         >
                                                             <Shield className="h-2.5 w-2.5" />
                                                             ADMIN
@@ -211,7 +211,7 @@ export function Navbar({ user, userProfile }: NavbarProps) {
                                                     <>
                                                         <DropdownMenuItem
                                                             onClick={() => router.push('/admin')}
-                                                            className="cursor-pointer text-cyan-600 dark:text-cyan-400 focus:text-cyan-700 dark:focus:text-cyan-300 font-semibold"
+                                                            className="cursor-pointer text-[#B60000] dark:text-red-400 focus:text-[#9a0000] dark:focus:text-red-300 font-semibold"
                                                         >
                                                             <Shield className="mr-2 h-4 w-4" />
                                                             Admin Console

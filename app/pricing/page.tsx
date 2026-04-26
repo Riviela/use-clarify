@@ -53,10 +53,10 @@ function PricingPageContent() {
       if (user) {
         const { data: profile } = await supabase
           .from('profiles')
-          .select('plan_type, lemon_subscription_id')
+          .select('plan_type, lemon_subscription_id, is_admin')
           .eq('id', user.id)
           .single();
-        setPlanType(profile?.plan_type === 'premium' ? 'premium' : 'free');
+        setPlanType((profile?.is_admin === true || profile?.plan_type === 'premium') ? 'premium' : 'free');
 
         // If premium, build LemonSqueezy customer portal URL
         if (profile?.lemon_subscription_id) {
@@ -84,10 +84,10 @@ function PricingPageContent() {
         if (user) {
           const { data: profile } = await supabase
             .from('profiles')
-            .select('plan_type')
+            .select('plan_type, is_admin')
             .eq('id', user.id)
             .single();
-          if (profile?.plan_type === 'premium') {
+          if (profile?.is_admin === true || profile?.plan_type === 'premium') {
             setPlanType('premium');
           }
         }

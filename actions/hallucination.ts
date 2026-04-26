@@ -1,23 +1,6 @@
 'use server';
 
-import { createClient } from '@/utils/supabase/server';
-import type { PlanType } from '@/lib/user-plan';
-
-async function fetchPlanType(): Promise<PlanType> {
-    try {
-        const supabase = await createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return 'free';
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('plan_type')
-            .eq('id', user.id)
-            .single();
-        return (profile?.plan_type === 'premium') ? 'premium' : 'free';
-    } catch {
-        return 'free';
-    }
-}
+import { getUserPlanType } from '@/lib/user-plan';
 
 export interface HallucinationResult {
     success: boolean;
@@ -28,7 +11,7 @@ export interface HallucinationResult {
 }
 
 export async function detectHallucinations(text: string): Promise<HallucinationResult> {
-    const planType = await fetchPlanType();
+    const planType = await getUserPlanType();
     try {
         if (!process.env.GROQ_API_KEY) {
             throw new Error('GROQ_API_KEY is missing');
