@@ -85,10 +85,7 @@ export const metadata: Metadata = {
             'max-snippet': -1,
         },
     },
-    icons: {
-        icon: '/clarify.png',
-        apple: '/clarify.png',
-    },
+    // Favicon is auto-detected from `app/icon.png` by Next.js App Router.
 };
 
 export default async function RootLayout({
