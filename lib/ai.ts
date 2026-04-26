@@ -36,7 +36,7 @@ export async function analyzeWithAI(text: string, language?: string): Promise<De
             paragraphs.push(text.trim());
         } else if (paragraphs.length === 0) {
             return {
-                overall: { human: 0, aiGenerated: 0 },
+                overall: { human: 0, aiGenerated: 0, aiRefined: 0 },
                 paragraphs: [],
                 disclaimer: DISCLAIMER
             };
@@ -110,22 +110,25 @@ export async function analyzeWithAI(text: string, language?: string): Promise<De
 
         const labelCounts = {
             human: 0,
-            ai_generated: 0
+            ai_generated: 0,
+            ai_refined: 0
         };
 
         analyses.forEach(a => {
             if (a.label === 'human') labelCounts.human++;
+            else if (a.label === 'ai_refined') labelCounts.ai_refined++;
             else labelCounts.ai_generated++;
         });
 
         const total = analyses.length;
         const overall = {
             human: Math.round((labelCounts.human / total) * 100),
-            aiGenerated: Math.round((labelCounts.ai_generated / total) * 100)
+            aiGenerated: Math.round((labelCounts.ai_generated / total) * 100),
+            aiRefined: Math.round((labelCounts.ai_refined / total) * 100)
         };
 
         // Fix rounding errors
-        const sum = overall.human + overall.aiGenerated;
+        const sum = overall.human + overall.aiGenerated + overall.aiRefined;
         if (sum !== 100 && total > 0) {
             overall.human += (100 - sum);
         }

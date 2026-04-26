@@ -4,6 +4,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/sonner';
 import { createClient } from '@/utils/supabase/server';
 import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
 import { User } from '@supabase/supabase-js';
 
 interface UserProfile {
@@ -83,13 +84,7 @@ export default async function RootLayout({
 
                     <Toaster />
 
-                    <footer className="border-t border-zinc-100 dark:border-zinc-800 mt-24">
-                        <div className="container mx-auto px-4 py-8">
-                            <p className="text-center text-sm text-zinc-400">
-                                © 2026 Clarify. All rights reserved.
-                            </p>
-                        </div>
-                    </footer>
+                    <Footer />
                 </div>
             </body>
         </html>

@@ -77,6 +77,8 @@ export function ParagraphAnalysis({ paragraphs }: ParagraphAnalysisProps) {
         switch (label) {
             case 'human':
                 return 'bg-green-600 hover:bg-green-700';
+            case 'ai_refined':
+                return 'bg-amber-500 hover:bg-amber-600';
             case 'ai_generated':
                 return 'bg-red-600 hover:bg-red-700';
             default:
@@ -88,6 +90,8 @@ export function ParagraphAnalysis({ paragraphs }: ParagraphAnalysisProps) {
         switch (label) {
             case 'human':
                 return 'bg-background border-border';
+            case 'ai_refined':
+                return 'bg-amber-50/70 border-amber-200 dark:bg-amber-900/40 dark:border-amber-800';
             case 'ai_generated':
                 return 'bg-red-100/70 border-red-200 dark:bg-red-900/40 dark:border-red-800';
             default:
@@ -98,6 +102,7 @@ export function ParagraphAnalysis({ paragraphs }: ParagraphAnalysisProps) {
     const getLabelText = (label: string) => {
         switch (label) {
             case 'human': return 'Human';
+            case 'ai_refined': return 'AI-Refined';
             case 'ai_generated': return 'AI-Generated';
             default: return 'Unknown';
         }
@@ -115,7 +120,7 @@ export function ParagraphAnalysis({ paragraphs }: ParagraphAnalysisProps) {
         <TooltipProvider>
             <div className="space-y-4">
                 {paragraphs.map((para) => {
-                    const isAi = para.label === 'ai_generated';
+                    const isAi = para.label === 'ai_generated' || para.label === 'ai_refined';
                     const displayText = humanizedTexts[para.index] || para.text;
                     const isHumanized = !!humanizedTexts[para.index];
 

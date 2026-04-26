@@ -16,8 +16,10 @@ export function ResultsDisplay({ result }: ResultsDisplayProps) {
 
     // Determine dominant label
     const getDominantLabel = () => {
-        if (overall.human >= overall.aiGenerated) {
+        if (overall.human >= overall.aiGenerated && overall.human >= overall.aiRefined) {
             return 'Human';
+        } else if (overall.aiRefined > overall.aiGenerated) {
+            return 'AI-Refined';
         } else {
             return 'AI-Generated';
         }
@@ -48,7 +50,9 @@ export function ResultsDisplay({ result }: ResultsDisplayProps) {
                                     className={
                                         getDominantLabel() === 'Human'
                                             ? 'text-green-600'
-                                            : 'text-red-600'
+                                            : getDominantLabel() === 'AI-Refined'
+                                                ? 'text-amber-500'
+                                                : 'text-red-600'
                                     }
                                 >
                                     {getDominantLabel()}
@@ -77,6 +81,25 @@ export function ResultsDisplay({ result }: ResultsDisplayProps) {
                                 <Progress
                                     value={overall.human}
                                     className="h-3 [&>div]:bg-green-600"
+                                />
+                            </div>
+
+                            {/* AI-Refined Score */}
+                            <div className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <span className="inline-flex items-center rounded-md bg-amber-50 dark:bg-amber-900/30 px-2 py-1 text-xs font-medium text-amber-700 dark:text-amber-400 ring-1 ring-inset ring-amber-600/20">
+                                            AI-Refined
+                                        </span>
+                                        <span className="text-sm text-zinc-400">
+                                            AI-assisted or polished content
+                                        </span>
+                                    </div>
+                                    <span className="font-semibold text-zinc-900 dark:text-white">{overall.aiRefined}%</span>
+                                </div>
+                                <Progress
+                                    value={overall.aiRefined}
+                                    className="h-3 [&>div]:bg-amber-500"
                                 />
                             </div>
 

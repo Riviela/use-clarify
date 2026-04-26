@@ -13,6 +13,8 @@ import { toast } from 'sonner';
 import {
   UserCircle,
   CreditCard,
+  Shield,
+  Receipt,
   Loader2,
   Save,
   Crown,
@@ -25,6 +27,8 @@ import {
   XCircle,
   Zap,
 } from 'lucide-react';
+import { MFASettings } from '@/components/mfa-settings';
+import { BillingHistory } from '@/components/billing-history';
 import Link from 'next/link';
 
 const VARIANT_YEARLY = process.env.NEXT_PUBLIC_LEMON_VARIANT_YEARLY || '';
@@ -42,7 +46,7 @@ interface ProfileData {
   plan_interval: string | null;
 }
 
-type SettingsTab = 'profile' | 'subscription';
+type SettingsTab = 'profile' | 'security' | 'subscription' | 'billing';
 
 function formatDate(dateStr: string | null | undefined): string {
   if (!dateStr) return '—';
@@ -202,7 +206,9 @@ export default function SettingsPage() {
 
   const tabs: { id: SettingsTab; label: string; icon: React.ReactNode }[] = [
     { id: 'profile', label: 'Profile', icon: <UserCircle className="w-4 h-4" /> },
+    { id: 'security', label: 'Security', icon: <Shield className="w-4 h-4" /> },
     { id: 'subscription', label: 'Subscription', icon: <CreditCard className="w-4 h-4" /> },
+    { id: 'billing', label: 'Invoices', icon: <Receipt className="w-4 h-4" /> },
   ];
 
   return (
@@ -322,6 +328,16 @@ export default function SettingsPage() {
                 </Button>
               </div>
             </div>
+          )}
+
+          {/* ─── SECURITY TAB ─── */}
+          {activeTab === 'security' && (
+            <MFASettings />
+          )}
+
+          {/* ─── BILLING TAB ─── */}
+          {activeTab === 'billing' && (
+            <BillingHistory />
           )}
 
           {/* ─── SUBSCRIPTION TAB ─── */}

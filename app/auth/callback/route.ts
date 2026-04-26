@@ -11,8 +11,18 @@ export async function GET(request: Request) {
         const { error } = await supabase.auth.exchangeCodeForSession(code);
 
         if (!error) {
+            // If the redirect target is the reset-password page, always honor it
+            // This handles the password recovery flow
             return NextResponse.redirect(`${origin}${redirect}`);
         }
+    }
+
+    // Handle hash-based recovery tokens (Supabase sends #type=recovery)
+    // These are handled client-side by Supabase SDK automatically,
+    // but we redirect to reset-password as a fallback
+    const type = searchParams.get('type');
+    if (type === 'recovery') {
+        return NextResponse.redirect(`${origin}/reset-password`);
     }
 
     // Return the user to an error page with instructions

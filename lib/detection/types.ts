@@ -11,6 +11,7 @@ export interface ParagraphAnalysis {
 export interface OverallScore {
     human: number;
     aiGenerated: number;
+    aiRefined: number;
 }
 
 export interface DetectionResult {

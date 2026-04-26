@@ -15,7 +15,8 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import { UserCircle, LogOut, ChevronDown, Sparkles, Settings, Crown } from 'lucide-react';
+import { UserCircle, LogOut, ChevronDown, Settings, Crown } from 'lucide-react';
+import Image from 'next/image';
 
 interface UserProfile {
     plan_type: string;
@@ -68,10 +69,14 @@ export function Navbar({ user, userProfile }: NavbarProps) {
                         {/* Logo */}
                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                             <Link href="/" className="flex items-center gap-2">
-                                <Sparkles className="h-5 w-5 text-cyan-400" />
-                                <span className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-white">
-                                    Clarify
-                                </span>
+                                <Image
+                                    src="/clarify.png"
+                                    alt="Clarify"
+                                    width={120}
+                                    height={32}
+                                    className="h-7 w-auto dark:invert"
+                                    priority
+                                />
                             </Link>
                         </motion.div>
 
