@@ -1,7 +1,7 @@
 {
-  "name": "ai-content-detector",
+  "name": "clarify",
   "version": "1.0.0",
-  "description": "Production-ready AI Content Detector - Analyzes text to classify as Human, AI-Generated, or AI-Refined",
+  "description": "Clarify — AI Detection & Humanization Platform. Detect AI-generated content, humanize robotic text, and refine your writing.",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",

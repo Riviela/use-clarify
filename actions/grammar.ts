@@ -28,8 +28,6 @@ export interface GrammarResult {
 
 export async function checkGrammar(text: string): Promise<GrammarResult> {
     const planType = await fetchPlanType();
-    console.log('Grammar check started... Text length:', text.length, 'Plan:', planType);
-
     try {
         if (!process.env.GROQ_API_KEY) {
             throw new Error('GROQ_API_KEY is missing');
@@ -99,8 +97,6 @@ Return the corrected and improved text.`;
         const originalWords = text.trim().split(/\s+/).length;
         const correctedWords = correctedText.trim().split(/\s+/).length;
         const correctionsCount = Math.abs(originalWords - correctedWords) + Math.floor(text.length / 100);
-
-        console.log('Grammar check successful. Corrections:', correctionsCount);
 
         return {
             success: true,

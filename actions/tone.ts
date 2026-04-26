@@ -37,7 +37,6 @@ export async function changeTone(
     tone: ToneType
 ): Promise<ToneResult> {
     const planType = await fetchPlanType();
-    console.log('Tone change started... Text length:', text.length, 'Tone:', tone, 'Plan:', planType);
 
     try {
         if (!process.env.GROQ_API_KEY) {
@@ -110,8 +109,6 @@ CRITICAL INSTRUCTION: The output MUST be in the EXACT SAME LANGUAGE as the input
         if (!tonedText) {
             throw new Error('Groq API did not respond');
         }
-
-        console.log('Tone change successful. Result length:', tonedText.length);
 
         return {
             success: true,

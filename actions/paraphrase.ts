@@ -34,7 +34,6 @@ async function fetchUserPlanType(): Promise<PlanType> {
 
 export async function paraphraseText(text: string): Promise<ParaphraseResult> {
     const planType = await fetchUserPlanType();
-    console.log('Paraphrase started... Text length:', text.length, 'Plan:', planType);
 
     try {
         const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
@@ -101,8 +100,6 @@ Instructions:
         if (!paraphrasedText) {
             throw new Error('Groq API did not respond');
         }
-
-        console.log('Paraphrase successful. Result length:', paraphrasedText.length);
 
         return {
             success: true,

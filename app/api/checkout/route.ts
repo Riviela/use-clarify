@@ -2,6 +2,23 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 import { lemonSqueezySetup, createCheckout } from '@lemonsqueezy/lemonsqueezy.js';
 
+/**
+ * Resolve the public base URL for redirects.
+ * Priority:
+ *   1. NEXT_PUBLIC_APP_URL — explicit production domain (e.g. https://use-clarify.com)
+ *   2. VERCEL_URL          — auto-set by Vercel for preview/production deployments
+ *   3. fallback            — production domain
+ */
+function getBaseUrl(): string {
+  if (process.env.NEXT_PUBLIC_APP_URL) {
+    return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, '');
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return 'https://use-clarify.com';
+}
+
 export async function POST(request: NextRequest) {
   try {
     const apiKey = process.env.LEMONSQUEEZY_API_KEY;
@@ -49,7 +66,7 @@ export async function POST(request: NextRequest) {
         },
       },
       productOptions: {
-        redirectUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/pricing?success=true`,
+        redirectUrl: `${getBaseUrl()}/pricing?success=true`,
         receiptButtonText: 'Return to App',
       },
     });

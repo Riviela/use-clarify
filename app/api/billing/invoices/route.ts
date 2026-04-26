@@ -1,6 +1,23 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 
+interface LemonSqueezyOrder {
+  id: string;
+  attributes?: {
+    status?: string;
+    created_at?: string;
+    total_formatted?: string;
+    total?: number;
+    first_order_item?: {
+      product_name?: string;
+      variant_name?: string;
+    };
+    urls?: {
+      receipt?: string | null;
+    };
+  };
+}
+
 interface InvoiceItem {
   id: string;
   date: string;
@@ -22,9 +39,6 @@ export async function GET() {
         { status: 500 }
       );
     }
-
-    const masked = apiKey.slice(0, 8) + '...' + apiKey.slice(-4);
-    console.log(`[Billing] API key loaded: ${masked} (length: ${apiKey.length})`);
 
     // 2. Auth check
     let supabase;
@@ -59,14 +73,10 @@ export async function GET() {
       );
     }
 
-    console.log('[Billing] User:', user.email);
-
     // 3. Fetch orders from Lemon Squeezy
     const lsUrl = new URL('https://api.lemonsqueezy.com/v1/orders');
     lsUrl.searchParams.set('filter[user_email]', user.email);
     lsUrl.searchParams.set('page[size]', '50');
-
-    console.log('[Billing] Requesting:', lsUrl.toString());
 
     let response: Response;
     try {
@@ -86,8 +96,6 @@ export async function GET() {
         { status: 502 }
       );
     }
-
-    console.log(`[Billing] Lemon Squeezy responded: ${response.status} ${response.statusText}`);
 
     if (!response.ok) {
       let errorBody = '';
@@ -112,8 +120,7 @@ export async function GET() {
       );
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let json: any;
+    let json: { data?: LemonSqueezyOrder[] };
     try {
       json = await response.json();
     } catch {
@@ -124,9 +131,7 @@ export async function GET() {
       );
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const orders: any[] = json.data || [];
-    console.log(`[Billing] ${orders.length} order(s) found.`);
+    const orders: LemonSqueezyOrder[] = json.data || [];
 
     // 4. Map orders safely
     const invoices: InvoiceItem[] = orders.map((order) => {

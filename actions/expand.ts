@@ -66,8 +66,6 @@ function extractFirstPortion(text: string, maxWords: number = 20): string {
 
 export async function expandText(text: string): Promise<ExpanderResult> {
     const planType = await fetchPlanType();
-    console.log('Text expand started... Text length:', text.length, 'Plan:', planType);
-
     try {
         if (!process.env.GROQ_API_KEY) {
             throw new Error('GROQ_API_KEY is missing');
@@ -134,8 +132,6 @@ Instructions:
         if (!expandedText) {
             throw new Error('Groq API did not respond');
         }
-
-        console.log('Text expand successful. Result length:', expandedText.length);
 
         // For free users: Show only first sentence (or first 20 words), rest is dummy
         if (planType !== 'premium') {

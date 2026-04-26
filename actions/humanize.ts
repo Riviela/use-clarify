@@ -58,7 +58,6 @@ function generateLoremIpsum(wordCount: number): string {
 
 export async function humanizeText(text: string): Promise<HumanizeResult> {
     const planType = await getUserPlanType();
-    console.log('Humanize started... Text length:', text.length, 'Plan:', planType);
 
     try {
         if (!process.env.GROQ_API_KEY) {
@@ -116,8 +115,6 @@ Instructions:
         if (!humanizedText) {
             throw new Error('Groq API did not respond');
         }
-
-        console.log('Humanize successful. Result length:', humanizedText.length);
 
         return {
             success: true,

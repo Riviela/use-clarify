@@ -31,8 +31,6 @@ export async function fixHallucinations(
     claims: string[]
 ): Promise<HallucinationFixResult> {
     const planType = await fetchPlanType();
-    console.log('Hallucination fix started... Text length:', text.length, 'Claims:', claims.length, 'Plan:', planType);
-
     try {
         if (!process.env.GROQ_API_KEY) {
             throw new Error('GROQ_API_KEY is missing');
@@ -108,8 +106,6 @@ All output must be in the same language as the input text.`,
         }
 
         const result = JSON.parse(content);
-
-        console.log('Hallucination fix successful');
 
         return {
             success: true,

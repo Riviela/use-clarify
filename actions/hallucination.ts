@@ -29,8 +29,6 @@ export interface HallucinationResult {
 
 export async function detectHallucinations(text: string): Promise<HallucinationResult> {
     const planType = await fetchPlanType();
-    console.log('Hallucination detection started... Text length:', text.length, 'Plan:', planType);
-
     try {
         if (!process.env.GROQ_API_KEY) {
             throw new Error('GROQ_API_KEY is missing');
@@ -98,8 +96,6 @@ CRITICAL: All output must be in the same language as the input text.`,
 
         const result = JSON.parse(content);
         const claimCount = result.claimCount || result.claims?.length || 0;
-
-        console.log('Hallucination detection successful. Claims found:', claimCount);
 
         // For free users: Only show summary and claim count, not the actual claims
         if (planType !== 'premium') {

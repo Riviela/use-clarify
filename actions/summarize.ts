@@ -33,8 +33,6 @@ export async function summarizeText(
     format: SummaryFormat
 ): Promise<SummarizeResult> {
     const planType = await fetchPlanType();
-    console.log('Summarize started... Text length:', text.length, 'Format:', format, 'Plan:', planType);
-
     try {
         if (!process.env.GROQ_API_KEY) {
             throw new Error('GROQ_API_KEY is missing');
@@ -102,8 +100,6 @@ CRITICAL: The summary must be in the exact same language as the original text. T
         if (!summary) {
             throw new Error('Groq API did not respond');
         }
-
-        console.log('Summarize successful. Summary length:', summary.length);
 
         return {
             success: true,

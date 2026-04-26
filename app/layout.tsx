@@ -23,8 +23,14 @@ const geistMono = Geist_Mono({
     variable: '--font-geist-mono',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://use-clarify.com';
+
 export const metadata: Metadata = {
-    title: 'Clarify — AI Detection & Humanization Platform',
+    metadataBase: new URL(siteUrl),
+    title: {
+        default: 'Clarify — AI Detection & Humanization Platform',
+        template: '%s — Clarify',
+    },
     description:
         'Clarify is the definitive AI text analysis platform. Detect AI-generated content with surgical precision, humanize robotic text, and refine your writing — all in one place.',
     keywords: [
@@ -38,6 +44,51 @@ export const metadata: Metadata = {
         'paraphraser',
         'hallucination detector',
     ],
+    authors: [{ name: 'Clarify' }],
+    creator: 'Clarify',
+    publisher: 'Clarify',
+    alternates: {
+        canonical: '/',
+    },
+    openGraph: {
+        type: 'website',
+        locale: 'en_US',
+        url: siteUrl,
+        title: 'Clarify — AI Detection & Humanization Platform',
+        description:
+            'Detect AI-generated content with surgical precision, humanize robotic text, and refine your writing — all in one place.',
+        siteName: 'Clarify',
+        images: [
+            {
+                url: '/clarify.png',
+                width: 1024,
+                height: 320,
+                alt: 'Clarify',
+            },
+        ],
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Clarify — AI Detection & Humanization Platform',
+        description:
+            'Detect AI-generated content with surgical precision, humanize robotic text, and refine your writing — all in one place.',
+        images: ['/clarify.png'],
+        creator: '@useclarifycom',
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+        },
+    },
+    icons: {
+        icon: '/clarify.png',
+        apple: '/clarify.png',
+    },
 };
 
 export default async function RootLayout({
@@ -65,7 +116,7 @@ export default async function RootLayout({
                 userProfile = profile as UserProfile;
             }
         }
-    } catch (error) {
+    } catch {
         // Supabase not configured - continue without auth
         console.warn('Supabase auth not available, continuing without authentication');
     }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -9,8 +9,6 @@ import { Check, Sparkles, Zap, Crown, Loader2, ExternalLink } from 'lucide-react
 import { toast } from 'sonner';
 import { createClient } from '@/utils/supabase/client';
 
-// ── LemonSqueezy Variant IDs ──
-// Replace these with your actual LemonSqueezy variant IDs from your dashboard
 const VARIANT_MONTHLY = process.env.NEXT_PUBLIC_LEMON_VARIANT_MONTHLY || '';
 const VARIANT_YEARLY = process.env.NEXT_PUBLIC_LEMON_VARIANT_YEARLY || '';
 
@@ -39,7 +37,7 @@ const staggerContainer = {
 
 type BillingInterval = 'monthly' | 'yearly';
 
-export default function PricingPage() {
+function PricingPageContent() {
   const searchParams = useSearchParams();
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [planType, setPlanType] = useState<string>('free');
@@ -440,5 +438,13 @@ export default function PricingPage() {
         </motion.p>
       </div>
     </div>
+  );
+}
+
+export default function PricingPage() {
+  return (
+    <Suspense fallback={<div className="min-h-[60vh] flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-zinc-400" /></div>}>
+      <PricingPageContent />
+    </Suspense>
   );
 }
