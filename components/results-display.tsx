@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import { useTranslation } from '@/components/language-provider';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BarChart3 } from 'lucide-react';
 import type { DetectionResult } from '@/lib/detection/types';
@@ -12,6 +13,7 @@ interface ResultsDisplayProps {
 }
 
 export function ResultsDisplay({ result }: ResultsDisplayProps) {
+    const { t } = useTranslation();
     const { overall, paragraphs } = result;
 
     // Determine dominant label
@@ -30,15 +32,15 @@ export function ResultsDisplay({ result }: ResultsDisplayProps) {
             <CardHeader className="space-y-2">
                 <CardTitle className="flex items-center gap-2 text-lg font-medium text-zinc-900 dark:text-white">
                     <BarChart3 className="h-5 w-5 text-zinc-500" />
-                    Detection Results
+                    {t('results.overallVerdict')}
                 </CardTitle>
             </CardHeader>
             <CardContent>
                 <Tabs defaultValue="overview" className="w-full">
                     <TabsList className="grid w-full grid-cols-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1">
-                        <TabsTrigger value="overview" className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-700">Overview</TabsTrigger>
+                        <TabsTrigger value="overview" className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-700">{t('results.overallVerdict')}</TabsTrigger>
                         <TabsTrigger value="paragraphs" className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-700">
-                            Paragraph Analysis ({paragraphs.length})
+                            {t('results.paragraphs')} ({paragraphs.length})
                         </TabsTrigger>
                     </TabsList>
 

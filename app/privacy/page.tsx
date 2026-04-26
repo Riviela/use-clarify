@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { getDictionary, getLocale } from '@/lib/i18n';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
@@ -7,7 +8,8 @@ export const metadata: Metadata = {
   description: 'Clarify privacy policy. Learn how we collect, use, and protect your personal information.',
 };
 
-export default function PrivacyPolicyPage() {
+export default async function PrivacyPolicyPage() {
+  const dict = getDictionary(await getLocale());
   return (
     <div className="max-w-3xl mx-auto">
       <Link
@@ -15,13 +17,13 @@ export default function PrivacyPolicyPage() {
         className="inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors mb-8"
       >
         <ArrowLeft className="w-4 h-4" />
-        Back to home
+        {dict.common.back}
       </Link>
 
       <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white mb-2">
         Privacy Policy
       </h1>
-      <p className="text-sm text-zinc-400 mb-10">Last updated: April 10, 2026</p>
+      <p className="text-sm text-zinc-400 mb-10">{dict.legal.lastUpdated}: April 10, 2026</p>
 
       <div className="prose prose-zinc dark:prose-invert prose-sm max-w-none space-y-8">
         <section>

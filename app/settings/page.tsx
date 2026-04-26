@@ -30,6 +30,7 @@ import {
 import { MFASettings } from '@/components/mfa-settings';
 import { BillingHistory } from '@/components/billing-history';
 import Link from 'next/link';
+import { useTranslation } from '@/components/language-provider';
 
 const VARIANT_YEARLY = process.env.NEXT_PUBLIC_LEMON_VARIANT_YEARLY || '';
 
@@ -73,6 +74,7 @@ function getStatusBadge(status: string | null): { label: string; classes: string
 }
 
 export default function SettingsPage() {
+  const { t } = useTranslation();
   const router = useRouter();
   const supabase = createClient();
 
@@ -205,10 +207,10 @@ export default function SettingsPage() {
   const planAmount = isMonthly ? '$19.99 / month' : '$199.99 / year';
 
   const tabs: { id: SettingsTab; label: string; icon: React.ReactNode }[] = [
-    { id: 'profile', label: 'Profile', icon: <UserCircle className="w-4 h-4" /> },
-    { id: 'security', label: 'Security', icon: <Shield className="w-4 h-4" /> },
-    { id: 'subscription', label: 'Subscription', icon: <CreditCard className="w-4 h-4" /> },
-    { id: 'billing', label: 'Invoices', icon: <Receipt className="w-4 h-4" /> },
+    { id: 'profile', label: t('navbar.profile'), icon: <UserCircle className="w-4 h-4" /> },
+    { id: 'security', label: t('settings.tabs.security'), icon: <Shield className="w-4 h-4" /> },
+    { id: 'subscription', label: t('settings.tabs.subscription'), icon: <CreditCard className="w-4 h-4" /> },
+    { id: 'billing', label: t('settings.tabs.billing'), icon: <Receipt className="w-4 h-4" /> },
   ];
 
   return (
@@ -216,10 +218,10 @@ export default function SettingsPage() {
       {/* Page Header */}
       <div className="mb-10">
         <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-white">
-          Settings
+          {t('settings.title')}
         </h1>
         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-          Manage your account and subscription preferences.
+          {t('settings.account.desc')}
         </p>
       </div>
 
@@ -277,13 +279,13 @@ export default function SettingsPage() {
               {/* Display Name */}
               <div className="max-w-md space-y-2">
                 <Label htmlFor="displayName" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  Display Name
+                  {t('settings.account.fullName')}
                 </Label>
                 <Input
                   id="displayName"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
-                  placeholder="Enter your display name"
+                  placeholder={t('settings.account.fullName')}
                   className="h-11 rounded-lg border-zinc-200 dark:border-zinc-800"
                 />
                 <p className="text-xs text-zinc-400">
@@ -294,7 +296,7 @@ export default function SettingsPage() {
               {/* Email (Read-only) */}
               <div className="max-w-md space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  Email Address
+                  {t('auth.email')}
                 </Label>
                 <Input
                   id="email"
@@ -317,12 +319,12 @@ export default function SettingsPage() {
                   {saving ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Saving...
+                      {t('common.loading')}
                     </>
                   ) : (
                     <>
                       <Save className="w-4 h-4 mr-2" />
-                      Save Changes
+                      {t('common.save')}
                     </>
                   )}
                 </Button>
