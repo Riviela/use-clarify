@@ -11,6 +11,7 @@ interface UserProfile {
   plan_type: string;
   full_name: string | null;
   avatar_url: string | null;
+  is_admin: boolean;
 }
 
 const geistSans = Geist({
@@ -105,7 +106,7 @@ export default async function RootLayout({
         if (user) {
             const { data: profile } = await supabase
                 .from('profiles')
-                .select('plan_type, full_name, avatar_url')
+                .select('plan_type, full_name, avatar_url, is_admin')
                 .eq('id', user.id)
                 .single();
             

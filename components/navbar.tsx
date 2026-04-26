@@ -15,13 +15,14 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import { UserCircle, LogOut, ChevronDown, Settings, Crown } from 'lucide-react';
+import { UserCircle, LogOut, ChevronDown, Settings, Crown, Shield } from 'lucide-react';
 import Image from 'next/image';
 
 interface UserProfile {
     plan_type: string;
     full_name: string | null;
     avatar_url: string | null;
+    is_admin?: boolean;
 }
 
 interface NavbarProps {
@@ -49,6 +50,7 @@ export function Navbar({ user, userProfile }: NavbarProps) {
     // Derive premium status from plan_type
     const planType = userProfile?.plan_type ?? 'free';
     const isPremiumPlan = planType === 'premium';
+    const isAdmin = userProfile?.is_admin === true;
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
@@ -120,8 +122,31 @@ export function Navbar({ user, userProfile }: NavbarProps) {
                                         transition={{ duration: 0.2 }}
                                         className="flex items-center gap-2"
                                     >
+                                        {/* Admin Badge */}
+                                        {isAdmin && (
+                                            <motion.div
+                                                initial={{ opacity: 0, x: -10 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: 0.1 }}
+                                            >
+                                                <Link href="/admin">
+                                                    <Badge
+                                                        className="hidden sm:flex items-center gap-1 bg-gradient-to-r from-cyan-500 via-cyan-400 to-cyan-500 text-zinc-950 border-0 font-bold text-xs px-3 py-1 shadow-lg shadow-cyan-500/30 cursor-pointer hover:shadow-cyan-500/50 transition-shadow"
+                                                    >
+                                                        <motion.div
+                                                            animate={{ rotate: [0, 360] }}
+                                                            transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                                                        >
+                                                            <Shield className="h-3 w-3" />
+                                                        </motion.div>
+                                                        ADMIN
+                                                    </Badge>
+                                                </Link>
+                                            </motion.div>
+                                        )}
+
                                         {/* Premium Badge */}
-                                        {isPremiumPlan && (
+                                        {isPremiumPlan && !isAdmin && (
                                             <motion.div
                                                 initial={{ opacity: 0, x: -10 }}
                                                 animate={{ opacity: 1, x: 0 }}
@@ -164,7 +189,15 @@ export function Navbar({ user, userProfile }: NavbarProps) {
                                                     <p className="text-xs text-zinc-500 truncate">
                                                         {user.email}
                                                     </p>
-                                                    {isPremiumPlan && (
+                                                    {isAdmin && (
+                                                        <Badge
+                                                            className="mt-1.5 flex sm:hidden w-fit items-center gap-1 bg-gradient-to-r from-cyan-500 via-cyan-400 to-cyan-500 text-zinc-950 border-0 font-bold text-[10px] px-2 py-0.5"
+                                                        >
+                                                            <Shield className="h-2.5 w-2.5" />
+                                                            ADMIN
+                                                        </Badge>
+                                                    )}
+                                                    {isPremiumPlan && !isAdmin && (
                                                         <Badge 
                                                             className="mt-1.5 flex sm:hidden w-fit items-center gap-1 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-white border-0 font-semibold text-[10px] px-2 py-0.5"
                                                         >
@@ -174,6 +207,18 @@ export function Navbar({ user, userProfile }: NavbarProps) {
                                                     )}
                                                 </div>
                                                 <DropdownMenuSeparator />
+                                                {isAdmin && (
+                                                    <>
+                                                        <DropdownMenuItem
+                                                            onClick={() => router.push('/admin')}
+                                                            className="cursor-pointer text-cyan-600 dark:text-cyan-400 focus:text-cyan-700 dark:focus:text-cyan-300 font-semibold"
+                                                        >
+                                                            <Shield className="mr-2 h-4 w-4" />
+                                                            Admin Console
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                    </>
+                                                )}
                                                 <DropdownMenuItem
                                                     onClick={() => router.push('/settings')}
                                                     className="cursor-pointer"
