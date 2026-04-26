@@ -465,8 +465,8 @@ export const tr: Dictionary = {
   },
 
   detectorPage: {
-    introTitle: 'Ne Okuduğunu Tam Olarak Bil.',
-    introBody: 'Clarify\'ın hassas motoru her paragrafı tarayarak insan yazısını, AI üretimi olanı ve düzenleneni ortaya çıkarır. Paragraf düzeyinde kararlar. Gerçek güven skorları. Tahmin yok.',
+    introTitle: 'Ücretsiz AI İçerik Dedektörü — Ne Okuduğunu Tam Olarak Bil',
+    introBody: 'Clarify\'ın hassas motoru her paragrafı tarayarak ChatGPT, GPT-4, Claude, Gemini ve Llama çıktılarını tespit eder. Paragraf düzeyinde kararlar, gerçek güven skorları, sıfır tahmin — en doğru ücretsiz AI dedektörü.',
     errorPrefix: 'Hata',
     errorGeneric: 'Metin analiz edilemedi',
   },

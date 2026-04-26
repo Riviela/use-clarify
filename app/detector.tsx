@@ -47,9 +47,9 @@ export function Detector() {
         <div className="max-w-5xl mx-auto space-y-10">
             {/* Introduction */}
             <div className="text-center space-y-4">
-                <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-white">
+                <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white">
                     {t('detectorPage.introTitle')}
-                </h2>
+                </h1>
                 <p className="text-base text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
                     {t('detectorPage.introBody')}
                 </p>

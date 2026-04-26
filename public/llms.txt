@@ -1,0 +1,30 @@
+# Clarify
+
+> Clarify is an all-in-one AI text suite. It detects AI-generated content, humanizes robotic text, paraphrases, summarizes, fixes grammar, changes tone, expands drafts, and catches hallucinations — all in one workspace, in English and Turkish.
+
+Clarify is built for writers, students, teachers, and teams who work with AI-generated content and need to keep their writing accurate, clear, and authentically human. The platform is powered by frontier language models served via Groq for sub-second responses.
+
+## Tools
+
+- [AI Content Detector](https://use-clarify.com/): Classifies text as Human, AI-Refined, or AI-Generated with high accuracy across ChatGPT, GPT-4, Claude, Gemini, and Llama.
+- [AI Humanizer](https://use-clarify.com/humanizer): Rewrites AI-generated text so it reads naturally and bypasses AI detectors. Pro feature.
+- [Paraphraser](https://use-clarify.com/paraphraser): Rewrites text in clean, plagiarism-free language. Free up to 100 words.
+- [Grammar Checker](https://use-clarify.com/grammar): Catches spelling, punctuation, and grammar errors. Pro adds style and fluency.
+- [Summarizer](https://use-clarify.com/summarizer): Condenses long text into bullet points (free), paragraph, or executive summary (Pro).
+- [Tone Changer](https://use-clarify.com/tone): Rewrites in Professional (free), Academic, Casual, Witty, or Aggressive tones (Pro).
+- [Text Expander](https://use-clarify.com/expander): Turns short outlines into full paragraphs. Free preview, Pro full text up to 3,000 words.
+- [Hallucination Detector](https://use-clarify.com/hallucination): Flags suspicious facts in AI text. Pro shows full details.
+
+## Pricing
+
+- [Pricing](https://use-clarify.com/pricing): Free plan and Clarify Pro at $19.99/month or $199.99/year.
+
+## Legal
+
+- [Privacy Policy](https://use-clarify.com/privacy)
+- [Terms of Service](https://use-clarify.com/terms)
+- [Refund Policy](https://use-clarify.com/refund)
+
+## Contact
+
+- Email: info@use-clarify.com

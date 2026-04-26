@@ -463,8 +463,8 @@ export const en = {
   },
 
   detectorPage: {
-    introTitle: 'Know Exactly What You\'re Reading.',
-    introBody: 'Clarify\'s precision engine scans every paragraph to surface what\'s human, what\'s AI-generated, and what\'s been refined. Paragraph-level verdicts. Real confidence scores. Zero guesswork.',
+    introTitle: 'Free AI Content Detector — Know What You\'re Reading',
+    introBody: 'Clarify\'s precision engine scans every paragraph to detect ChatGPT, GPT-4, Claude, Gemini, and Llama output. Paragraph-level verdicts, real confidence scores, zero guesswork — the most accurate free AI detector online.',
     errorPrefix: 'Error',
     errorGeneric: 'Failed to analyze text',
   },
