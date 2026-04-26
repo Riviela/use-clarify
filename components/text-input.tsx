@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, Loader2 } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
+import { useTranslation } from '@/components/language-provider';
 
 interface TextInputProps {
     onAnalyze: (text: string, language?: string) => void;
@@ -14,6 +15,7 @@ interface TextInputProps {
 }
 
 export function TextInput({ onAnalyze, isLoading }: TextInputProps) {
+    const { t } = useTranslation();
     const [text, setText] = useState('');
     const [wordCount, setWordCount] = useState(0);
     const [charCount, setCharCount] = useState(0);
@@ -45,9 +47,9 @@ export function TextInput({ onAnalyze, isLoading }: TextInputProps) {
         setCharCount(text.length);
 
         if (words.length > maxWords) {
-            setError(`Text exceeds maximum of ${maxWords} words associated with your plan`);
+            setError(t('toolLayout.freeUserLimit', { count: maxWords }));
         } else if (text.trim() && words.length === 0) {
-            setError('Please enter valid text');
+            setError(t('common.error'));
         } else {
             setError('');
         }
@@ -57,7 +59,7 @@ export function TextInput({ onAnalyze, isLoading }: TextInputProps) {
 
     const handleSubmit = () => {
         if (!text.trim()) {
-            setError('Please enter some text to analyze');
+            setError(t('common.enterText'));
             return;
         }
 
@@ -74,7 +76,7 @@ export function TextInput({ onAnalyze, isLoading }: TextInputProps) {
                 <CardTitle className="flex items-center justify-between text-lg font-medium text-zinc-900 dark:text-white">
                     <div className="flex items-center gap-2">
                         <FileText className="h-5 w-5 text-zinc-500" />
-                        Enter Text to Analyze
+                        {t('textInput.label')}
                     </div>
 
                     <select
@@ -83,23 +85,23 @@ export function TextInput({ onAnalyze, isLoading }: TextInputProps) {
                         onChange={(e) => setLanguage(e.target.value)}
                         disabled={isLoading}
                     >
-                        <option value="">Auto Detect Language</option>
-                        <option value="English">English</option>
-                        <option value="Turkish">Turkish</option>
-                        <option value="Spanish">Spanish</option>
-                        <option value="German">German</option>
-                        <option value="French">French</option>
+                        <option value="">{t('textInput.languageAuto')}</option>
+                        <option value="English">{t('textInput.languageEn')}</option>
+                        <option value="Turkish">{t('textInput.languageTr')}</option>
+                        <option value="Spanish">{t('textInput.languageEs')}</option>
+                        <option value="German">{t('textInput.languageDe')}</option>
+                        <option value="French">{t('textInput.languageFr')}</option>
                     </select>
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="space-y-2">
                     <Label htmlFor="text-input" className="text-sm text-zinc-500">
-                        Paste or type your text below (max {maxWords} words)
+                        {t('toolLayout.freeUserLimit', { count: maxWords })}
                     </Label>
                     <Textarea
                         id="text-input"
-                        placeholder="Enter the text you want to analyze for AI-generated content..."
+                        placeholder={t('textInput.placeholder')}
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                         className="min-h-[200px] resize-y rounded-lg border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
@@ -114,10 +116,10 @@ export function TextInput({ onAnalyze, isLoading }: TextInputProps) {
                             id="word-count"
                             className={wordCount > maxWords ? 'text-red-500 font-semibold' : ''}
                         >
-                            {wordCount} / {maxWords} words
+                            {t('toolLayout.wordsCountMax', { count: wordCount, max: maxWords })}
                         </span>
                         <span id="char-count">
-                            {charCount} chars
+                            {t('common.charCount', { count: charCount })}
                         </span>
                     </div>
 
@@ -129,10 +131,10 @@ export function TextInput({ onAnalyze, isLoading }: TextInputProps) {
                         {isLoading ? (
                             <>
                                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                                Analyzing...
+                                {t('textInput.detectingButton')}
                             </>
                         ) : (
-                            'Analyze Text'
+                            t('textInput.detectButton')
                         )}
                     </Button>
                 </div>

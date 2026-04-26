@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { ToolLayout } from '@/components/tool-layout';
+import { useTranslation } from '@/components/language-provider';
 import { Expand, Lock, AlertCircle } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import { expandText } from '@/actions/expand';
@@ -11,6 +12,7 @@ const FREE_TIER_WORD_LIMIT = 500;
 const PREMIUM_WORD_LIMIT = 5000;
 
 export default function ExpanderPage() {
+  const { t } = useTranslation();
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -86,14 +88,14 @@ export default function ExpanderPage() {
       </Alert>
 
       <ToolLayout
-        title="Text Expander"
+        title={t('tools.expander.title')}
         description="Turn concise ideas into rich, detailed content — instantly."
         icon={<Expand className="w-5 h-5 text-orange-500" />}
         inputPlaceholder="Paste your brief text here..."
         outputPlaceholder="Expanded content will appear here..."
         actionButtonText="Expand"
         actionButtonIcon={<Expand className="w-5 h-5 mr-2" />}
-        loadingText="Expanding..."
+        loadingText={t('tools.expander.expanding')}
         planType={planType}
         premiumBadge={planType !== 'premium' ? `Limit: ${FREE_TIER_WORD_LIMIT} words, only 30% visible` : undefined}
         wordCount={wordCount}

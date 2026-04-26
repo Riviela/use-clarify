@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Shield, Users, Crown, Activity, Server, Database, Zap, TerminalSquare } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslation } from '@/components/language-provider';
 
 interface AdminStats {
   totalUsers: number;
@@ -69,6 +70,7 @@ function SystemRow({ label, status, value }: { label: string; status: 'ok' | 'wa
 }
 
 export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps) {
+  const { t } = useTranslation();
   return (
     <div className="relative min-h-[80vh]">
       {/* Background grid effect */}
@@ -95,19 +97,19 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
               <div className="absolute inset-0 blur-xl bg-[#B60000]/50" />
             </motion.div>
             <Badge className="bg-[#B60000] text-white border-0 font-bold tracking-widest text-[10px] px-2.5 py-0.5 shadow-lg shadow-[#B60000]/50">
-              ADMIN
+              {t('admin.badge')}
             </Badge>
             <span className="font-mono text-xs text-zinc-400 dark:text-zinc-600 tracking-widest">
-              CLEARANCE: ROOT
+              {t('admin.clearance')}
             </span>
           </div>
 
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white">
-            Admin <span className="bg-gradient-to-r from-[#B60000] via-[#ff3333] to-[#B60000] bg-clip-text text-transparent">Console</span>
+            {t('admin.title')} <span className="bg-gradient-to-r from-[#B60000] via-[#ff3333] to-[#B60000] bg-clip-text text-transparent">{t('admin.titleAccent')}</span>
           </h1>
 
           <p className="mt-2 text-zinc-500 dark:text-zinc-400 font-mono text-sm">
-            <span className="text-[#B60000]">$</span> logged_in_as: <span className="text-zinc-700 dark:text-zinc-300">{adminName}</span>{' '}
+            <span className="text-[#B60000]">$</span> {t('admin.loggedInAs')}: <span className="text-zinc-700 dark:text-zinc-300">{adminName}</span>{' '}
             <span className="text-zinc-400 dark:text-zinc-600">&lt;{adminEmail}&gt;</span>
           </p>
         </motion.div>
@@ -116,21 +118,21 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <StatCard
             icon={<Users className="w-4 h-4" />}
-            label="Total Users"
+            label={t('admin.stats.totalUsers')}
             value={stats.totalUsers}
             accent="bg-gradient-to-r from-[#B60000] via-red-400 to-transparent"
             delay={0.1}
           />
           <StatCard
             icon={<Crown className="w-4 h-4" />}
-            label="Premium Users"
+            label={t('admin.stats.premiumUsers')}
             value={stats.premiumUsers}
             accent="bg-gradient-to-r from-amber-500 via-amber-400 to-transparent"
             delay={0.2}
           />
           <StatCard
             icon={<Shield className="w-4 h-4" />}
-            label="Admins"
+            label={t('admin.stats.admins')}
             value={stats.adminUsers}
             accent="bg-gradient-to-r from-emerald-500 via-emerald-400 to-transparent"
             delay={0.3}
@@ -149,15 +151,15 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
                   <Server className="w-4 h-4 text-[#B60000]" />
-                  System Status
+                  {t('admin.systemStatus.title')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <SystemRow label="Auth (Supabase)" status="ok" value="OPERATIONAL" />
-                <SystemRow label="Database (Postgres)" status="ok" value="OPERATIONAL" />
-                <SystemRow label="AI (Groq)" status="ok" value="OPERATIONAL" />
-                <SystemRow label="Payments (Lemon Squeezy)" status="ok" value="LIVE MODE" />
-                <SystemRow label="Webhook Listener" status="ok" value="LISTENING" />
+                <SystemRow label={t('admin.systemStatus.auth')} status="ok" value={t('admin.systemStatus.operational')} />
+                <SystemRow label={t('admin.systemStatus.database')} status="ok" value={t('admin.systemStatus.operational')} />
+                <SystemRow label={t('admin.systemStatus.ai')} status="ok" value={t('admin.systemStatus.operational')} />
+                <SystemRow label={t('admin.systemStatus.payments')} status="ok" value={t('admin.systemStatus.liveMode')} />
+                <SystemRow label={t('admin.systemStatus.webhook')} status="ok" value={t('admin.systemStatus.listening')} />
               </CardContent>
             </Card>
           </motion.div>
@@ -172,7 +174,7 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
                   <TerminalSquare className="w-4 h-4 text-[#B60000]" />
-                  Quick Links
+                  {t('admin.quickLinks.title')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
@@ -184,7 +186,7 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
                 >
                   <div className="flex items-center gap-3">
                     <Database className="w-4 h-4 text-[#B60000]" />
-                    <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Supabase Dashboard</span>
+                    <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">{t('admin.quickLinks.supabase')}</span>
                   </div>
                   <span className="text-xs text-zinc-400 group-hover:text-[#B60000] transition-colors">↗</span>
                 </a>
@@ -196,7 +198,7 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
                 >
                   <div className="flex items-center gap-3">
                     <Zap className="w-4 h-4 text-[#B60000]" />
-                    <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Lemon Squeezy</span>
+                    <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">{t('admin.quickLinks.lemon')}</span>
                   </div>
                   <span className="text-xs text-zinc-400 group-hover:text-[#B60000] transition-colors">↗</span>
                 </a>
@@ -208,7 +210,7 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
                 >
                   <div className="flex items-center gap-3">
                     <Activity className="w-4 h-4 text-[#B60000]" />
-                    <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Groq Console</span>
+                    <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">{t('admin.quickLinks.groq')}</span>
                   </div>
                   <span className="text-xs text-zinc-400 group-hover:text-[#B60000] transition-colors">↗</span>
                 </a>
@@ -220,7 +222,7 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
                 >
                   <div className="flex items-center gap-3">
                     <Server className="w-4 h-4 text-[#B60000]" />
-                    <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Vercel Dashboard</span>
+                    <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">{t('admin.quickLinks.vercel')}</span>
                   </div>
                   <span className="text-xs text-zinc-400 group-hover:text-[#B60000] transition-colors">↗</span>
                 </a>
@@ -237,7 +239,7 @@ export function AdminConsole({ adminEmail, adminName, stats }: AdminConsoleProps
           className="border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-8"
         >
           <p className="text-xs font-mono text-zinc-400 dark:text-zinc-600 text-center">
-            <span className="text-[#B60000]">●</span> SECURE_SESSION  ·  Restricted access  ·  All actions logged
+            <span className="text-[#B60000]">●</span> {t('admin.footerNote')}
           </p>
         </motion.div>
       </div>

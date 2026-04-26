@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Loader2, Copy, Check, Lock, Crown } from 'lucide-react';
 import { useUpgrade } from '@/hooks/use-upgrade';
+import { useTranslation } from '@/components/language-provider';
 
 interface ToolLayoutProps {
   title: string;
@@ -79,10 +80,12 @@ export function ToolLayout({
   children,
   extraControls,
   blurOverlay = false,
-  blurMessage = 'Upgrade to Clarify Pro to unlock this feature',
+  blurMessage,
 }: ToolLayoutProps) {
   const [copied, setCopied] = useState(false);
   const { handleUpgrade } = useUpgrade();
+  const { t } = useTranslation();
+  const effectiveBlurMessage = blurMessage ?? t('toolLayout.blurMessageDefault');
 
   const handleCopy = async () => {
     if (!outputText) return;
@@ -93,9 +96,10 @@ export function ToolLayout({
 
   const getWordCountText = () => {
     if (maxWords) {
-      return `${wordCount} / ${planType === 'premium' ? 'Unlimited' : maxWords} words`;
+      if (planType === 'premium') return t('toolLayout.wordsCountUnlimited', { count: wordCount });
+      return t('toolLayout.wordsCountMax', { count: wordCount, max: maxWords });
     }
-    return `${wordCount} words`;
+    return t('toolLayout.wordsCount', { count: wordCount });
   };
 
   return (
@@ -133,10 +137,10 @@ export function ToolLayout({
         <Card className="flex flex-col border-zinc-200 dark:border-zinc-800 shadow-sm rounded-xl">
           <CardHeader className="space-y-2">
             <CardTitle className="text-lg font-medium text-zinc-900 dark:text-white">
-              Input Text
+              {t('toolLayout.inputTitle')}
             </CardTitle>
             <CardDescription className="text-sm text-zinc-500">
-              Paste the text you want to process here
+              {t('toolLayout.inputDesc')}
             </CardDescription>
           </CardHeader>
           <CardContent className="flex-1">
@@ -149,17 +153,17 @@ export function ToolLayout({
             <div className="flex items-center justify-between mt-3">
               <p className={`text-sm ${isOverLimit ? 'text-red-500 font-medium' : 'text-zinc-400'}`}>
                 {getWordCountText()}
-                {isOverLimit && ' (Limit exceeded!)'}
+                {isOverLimit && ` ${t('toolLayout.limitExceeded')}`}
               </p>
               {planType !== 'premium' && maxWords && (
                 <span className="text-xs text-zinc-400">
-                  Free: {maxWords} words
+                  {t('toolLayout.freeWords', { count: maxWords })}
                 </span>
               )}
               {planType === 'premium' && (
                 <span className="text-xs text-cyan-400 font-medium flex items-center gap-1">
                   <Crown className="w-3 h-3" />
-                  Premium
+                  {t('common.premium')}
                 </span>
               )}
             </div>
@@ -172,7 +176,7 @@ export function ToolLayout({
             <div className="space-y-2">
               <CardTitle className="text-lg font-medium text-zinc-900 dark:text-white flex items-center gap-2">
                 {icon}
-                <span>Result</span>
+                <span>{t('toolLayout.result')}</span>
               </CardTitle>
               <CardDescription className="text-sm text-zinc-500">
                 {outputPlaceholder}
@@ -190,12 +194,12 @@ export function ToolLayout({
                   {copied ? (
                     <>
                       <Check className="w-4 h-4 mr-1" />
-                      Copied
+                      {t('common.copied')}
                     </>
                   ) : (
                     <>
                       <Copy className="w-4 h-4 mr-1" />
-                      Copy
+                      {t('common.copy')}
                     </>
                   )}
                 </Button>
@@ -249,7 +253,7 @@ export function ToolLayout({
                         className="text-sm font-medium text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap"
                         style={{ whiteSpace: 'pre-wrap' }}
                       >
-                        {blurMessage}
+                        {effectiveBlurMessage}
                       </span>
                       <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                         <Button 
@@ -258,7 +262,7 @@ export function ToolLayout({
                           onClick={handleUpgrade}
                         >
                           <Crown className="w-4 h-4 mr-1" />
-                          Upgrade to Pro
+                          {t('common.upgradeToPro')}
                         </Button>
                       </motion.div>
                     </motion.div>
@@ -292,7 +296,7 @@ export function ToolLayout({
             ) : isOverLimit ? (
               <>
                 <Lock className="w-5 h-5 mr-2" />
-                Premium Required ({wordCount} words)
+                {t('toolLayout.premiumRequired', { count: wordCount })}
               </>
             ) : (
               <>
@@ -305,7 +309,7 @@ export function ToolLayout({
         
         {maxWords && planType !== 'premium' && (
           <p className="text-sm text-zinc-400">
-            Free user limit: {maxWords} words
+            {t('toolLayout.freeUserLimit', { count: maxWords })}
           </p>
         )}
       </motion.div>

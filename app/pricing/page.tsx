@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Check, Sparkles, Zap, Crown, Loader2, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 import { createClient } from '@/utils/supabase/client';
+import { useTranslation } from '@/components/language-provider';
 
 const VARIANT_MONTHLY = process.env.NEXT_PUBLIC_LEMON_VARIANT_MONTHLY || '';
 const VARIANT_YEARLY = process.env.NEXT_PUBLIC_LEMON_VARIANT_YEARLY || '';
@@ -38,6 +39,7 @@ const staggerContainer = {
 type BillingInterval = 'monthly' | 'yearly';
 
 function PricingPageContent() {
+  const { t } = useTranslation();
   const searchParams = useSearchParams();
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [planType, setPlanType] = useState<string>('free');
@@ -73,8 +75,8 @@ function PricingPageContent() {
   // Handle success redirect from LemonSqueezy checkout
   useEffect(() => {
     if (searchParams.get('success') === 'true') {
-      toast.success('Payment successful!', {
-        description: 'Your Clarify Pro plan is now active. Welcome aboard!',
+      toast.success(t('pricing.successToastTitle'), {
+        description: t('pricing.successToastDesc'),
         duration: 6000,
       });
       // Re-fetch plan after short delay to allow webhook processing
@@ -142,40 +144,40 @@ function PricingPageContent() {
   };
 
   const proPrice = billingInterval === 'monthly' ? '$19.99' : '$199.99';
-  const proPeriod = billingInterval === 'monthly' ? '/month' : '/year';
+  const proPeriod = billingInterval === 'monthly' ? t('pricing.perMonth') : t('pricing.perYear');
   const proVariantId = billingInterval === 'monthly' ? VARIANT_MONTHLY : VARIANT_YEARLY;
 
   const plans = [
     {
       id: 'starter',
-      name: 'Starter',
+      name: t('pricing.starter.name'),
       price: '$0',
-      period: '/month',
-      description: 'Everything you need to get started',
+      period: t('pricing.perMonth'),
+      description: t('pricing.starter.desc'),
       icon: Sparkles,
       features: [
-        '500 words per analysis',
-        'Core grammar corrections',
-        'Bullet-point summaries',
-        'Paraphrasing up to 100 words',
-        'AI detection engine access',
+        t('pricing.starterFeatures.f1'),
+        t('pricing.starterFeatures.f2'),
+        t('pricing.starterFeatures.f3'),
+        t('pricing.starterFeatures.f4'),
+        t('pricing.starterFeatures.f5'),
       ],
       popular: false,
     },
     {
       id: 'pro',
-      name: 'Pro',
+      name: t('pricing.pro.name'),
       price: proPrice,
       period: proPeriod,
-      description: 'The full Clarify experience',
+      description: t('pricing.pro.desc'),
       icon: Zap,
       features: [
-        'Up to 3,000 words per request',
-        'Advanced grammar, style & fluency engine',
-        'Humanizer — make AI text undetectable',
-        'All tone modes (Academic, Witty & more)',
-        'Full hallucination reports with auto-fix',
-        'Priority support',
+        t('pricing.proFeatures.f1'),
+        t('pricing.proFeatures.f2'),
+        t('pricing.proFeatures.f3'),
+        t('pricing.proFeatures.f4'),
+        t('pricing.proFeatures.f5'),
+        t('pricing.proFeatures.f6'),
       ],
       popular: true,
     },
@@ -200,17 +202,17 @@ function PricingPageContent() {
           className="text-center mb-12"
         >
           <h1 className="text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white mb-4">
-            Simple, Transparent Pricing
+            {t('pricing.title')}
           </h1>
           <p className="text-lg text-zinc-500 dark:text-zinc-400 max-w-lg mx-auto">
-            Start with Clarify for free. Upgrade when you need the full arsenal.
+            {t('pricing.subtitle')}
           </p>
 
           {planType === 'premium' && (
             <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/30 rounded-full">
               <Crown className="w-4 h-4 text-green-600" />
               <span className="text-sm font-medium text-green-800 dark:text-green-200">
-                You are on Clarify Pro
+                {t('pricing.pro.ctaCurrent')}
               </span>
             </div>
           )}
@@ -232,7 +234,7 @@ function PricingPageContent() {
               }`}
               onClick={() => setBillingInterval('monthly')}
             >
-              Monthly
+              {t('pricing.monthly')}
             </span>
 
             <button
@@ -264,12 +266,12 @@ function PricingPageContent() {
               }`}
               onClick={() => setBillingInterval('yearly')}
             >
-              Yearly
+              {t('pricing.yearly')}
             </span>
 
             {billingInterval === 'yearly' && (
               <Badge className="bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300 border-0 text-xs font-medium">
-                Save ~17%
+                {t('pricing.saveBadge')}
               </Badge>
             )}
           </motion.div>
@@ -310,7 +312,7 @@ function PricingPageContent() {
                 {plan.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <Badge className="bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-3 py-1 text-xs font-medium">
-                      Most Popular
+                      ★
                     </Badge>
                   </div>
                 )}
@@ -380,7 +382,7 @@ function PricingPageContent() {
                           disabled
                         >
                           <Crown className="w-4 h-4 mr-2" />
-                          Current Plan
+                          {t('pricing.starter.cta')}
                         </Button>
                         {customerPortalUrl && (
                           <Button
@@ -389,7 +391,7 @@ function PricingPageContent() {
                             onClick={() => window.open(customerPortalUrl, '_blank')}
                           >
                             <ExternalLink className="w-3.5 h-3.5 mr-2" />
-                            Manage Subscription
+                            {t('pricing.pro.manage')}
                           </Button>
                         )}
                       </div>
@@ -402,12 +404,12 @@ function PricingPageContent() {
                         {checkoutLoading ? (
                           <>
                             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                            Redirecting...
+                            {t('common.loading')}
                           </>
                         ) : (
                           <>
                             <Zap className="w-4 h-4 mr-2" />
-                            Upgrade to Pro
+                            {t('pricing.pro.cta')}
                           </>
                         )}
                       </Button>
@@ -418,7 +420,7 @@ function PricingPageContent() {
                       className="w-full h-11 rounded-lg font-medium bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white"
                       disabled
                     >
-                      {planType === 'premium' ? 'Not Available' : 'Current Plan'}
+                      {t('pricing.starter.cta')}
                     </Button>
                   )}
                 </div>
@@ -434,7 +436,7 @@ function PricingPageContent() {
           transition={{ delay: 0.8, duration: 0.6 }}
           className="text-center text-sm text-zinc-400 mt-12"
         >
-          Secure payments via LemonSqueezy. Cancel anytime — no questions asked.
+          {t('pricing.paymentNote')}
         </motion.p>
       </div>
     </div>

@@ -10,8 +10,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { createClient } from '@/utils/supabase/client';
 import { toast } from 'sonner';
 import { Loader2, Mail, Lock, Github, Chrome, Eye, EyeOff, ShieldCheck, KeyRound } from 'lucide-react';
+import { useTranslation } from '@/components/language-provider';
 
 function LoginPageContent() {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -37,8 +39,8 @@ function LoginPageContent() {
     useEffect(() => {
         if (!oauthError) return;
         const messages: Record<string, string> = {
-            auth: 'Sign-in failed. Please try again.',
-            missing_code: 'Sign-in did not complete. Check your provider configuration.',
+            auth: t('auth.errors.signInFailed'),
+            missing_code: t('auth.errors.missingCode'),
         };
         toast.error(messages[oauthError] || decodeURIComponent(oauthError));
     }, [oauthError]);
@@ -250,12 +252,12 @@ function LoginPageContent() {
             <Card className="w-full max-w-md border-zinc-200 shadow-sm">
                 <CardHeader className="space-y-1 text-center">
                     <CardTitle className="text-2xl font-semibold tracking-tight">
-                        {isSignUp ? 'Join Clarify' : 'Welcome back'}
+                        {isSignUp ? t('auth.signUpTitle') : t('auth.signInTitle')}
                     </CardTitle>
                     <CardDescription className="text-zinc-500">
                         {isSignUp
-                            ? 'Create your account to unlock AI detection, humanization & more'
-                            : 'Sign in to your Clarify account'}
+                            ? t('auth.signUpSubtitle')
+                            : t('auth.signInSubtitle')}
                     </CardDescription>
                 </CardHeader>
 
@@ -263,14 +265,14 @@ function LoginPageContent() {
                     <form onSubmit={handleEmailAuth} className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="email" className="text-sm font-medium">
-                                Email
+                                {t('auth.email')}
                             </Label>
                             <div className="relative">
                                 <Mail className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="name@example.com"
+                                    placeholder={t('auth.emailPlaceholder')}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="pl-10 h-11 bg-white border-zinc-200 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
@@ -282,14 +284,14 @@ function LoginPageContent() {
                         <div className="space-y-2">
                             <div className="flex items-center justify-between">
                                 <Label htmlFor="password" className="text-sm font-medium">
-                                    Password
+                                    {t('auth.password')}
                                 </Label>
                                 {!isSignUp && (
                                     <Link
                                         href="/forgot-password"
                                         className="text-xs text-cyan-500 hover:text-cyan-600 font-medium hover:underline underline-offset-4"
                                     >
-                                        Forgot password?
+                                        {t('auth.forgotPassword')}
                                     </Link>
                                 )}
                             </div>
@@ -322,7 +324,7 @@ function LoginPageContent() {
                         {isSignUp && (
                             <div className="space-y-2">
                                 <Label htmlFor="confirm-password" className="text-sm font-medium">
-                                    Confirm Password
+                                    {t('auth.confirmPassword')}
                                 </Label>
                                 <div className="relative">
                                     <Lock className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
@@ -350,7 +352,7 @@ function LoginPageContent() {
                                 </div>
                                 {confirmPassword && password !== confirmPassword && (
                                     <p className="text-xs text-red-500">
-                                        Passwords do not match
+                                        {t('auth.errors.passwordsDoNotMatch')}
                                     </p>
                                 )}
                             </div>
@@ -364,12 +366,12 @@ function LoginPageContent() {
                             {isLoading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    {isSignUp ? 'Creating account...' : 'Signing in...'}
+                                    {t('common.loading')}
                                 </>
                             ) : isSignUp ? (
-                                'Create account'
+                                t('auth.createAccount')
                             ) : (
-                                'Sign in'
+                                t('common.signIn')
                             )}
                         </Button>
                     </form>
@@ -379,7 +381,7 @@ function LoginPageContent() {
                             <span className="w-full border-t border-zinc-200" />
                         </div>
                         <div className="relative flex justify-center text-xs uppercase">
-                            <span className="bg-white px-2 text-zinc-500">Or continue with</span>
+                            <span className="bg-white px-2 text-zinc-500">{t('auth.orContinueWith')}</span>
                         </div>
                     </div>
 
@@ -407,7 +409,7 @@ function LoginPageContent() {
 
                 <CardFooter className="flex flex-col space-y-2">
                     <div className="text-sm text-center text-zinc-500">
-                        {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
+                        {isSignUp ? t('auth.haveAccount') : t('auth.noAccount')}{' '}
                         <button
                             onClick={() => {
                                 setIsSignUp(!isSignUp);
@@ -416,7 +418,7 @@ function LoginPageContent() {
                             }}
                             className="text-cyan-500 hover:text-cyan-600 font-medium underline-offset-4 hover:underline"
                         >
-                            {isSignUp ? 'Sign in' : 'Sign up'}
+                            {isSignUp ? t('common.signIn') : t('common.signUp')}
                         </button>
                     </div>
 
@@ -425,7 +427,7 @@ function LoginPageContent() {
                             href="/"
                             className="text-sm text-center text-zinc-400 hover:text-zinc-600"
                         >
-                            Explore Clarify without an account
+                            {t('auth.skipForNow')}
                         </Link>
                     )}
                 </CardFooter>

@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { ToolLayout } from '@/components/tool-layout';
+import { useTranslation } from '@/components/language-provider';
 import { FileText, Lock, AlertCircle } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import { summarizeText, SummaryFormat } from '@/actions/summarize';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function SummarizerPage() {
+  const { t } = useTranslation();
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -96,14 +98,14 @@ export default function SummarizerPage() {
       )}
 
       <ToolLayout
-        title="Summarizer"
+        title={t('tools.summarizer.title')}
         description="Distill lengthy content into sharp, actionable summaries."
         icon={<FileText className="w-5 h-5 text-blue-500" />}
-        inputPlaceholder="Paste your text here..."
+        inputPlaceholder={t('common.placeholder')}
         outputPlaceholder="Your summary will appear here..."
-        actionButtonText="Summarize"
+        actionButtonText={t('tools.summarizer.summarize')}
         actionButtonIcon={<FileText className="w-5 h-5 mr-2" />}
-        loadingText="Summarizing..."
+        loadingText={t('tools.summarizer.summarizing')}
         planType={planType}
         premiumBadge={planType !== 'premium' ? "Bullet Points only" : undefined}
         wordCount={wordCount}

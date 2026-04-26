@@ -10,10 +10,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { createClient } from '@/utils/supabase/client';
 import { toast } from 'sonner';
 import { Loader2, Lock, Eye, EyeOff, KeyRound, CheckCircle2, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { useTranslation } from '@/components/language-provider';
 
 type PageState = 'loading' | 'mfa_challenge' | 'set_password' | 'success';
 
 export default function ResetPasswordPage() {
+    const { t } = useTranslation();
     const [pageState, setPageState] = useState<PageState>('loading');
 
     // Password form
@@ -66,7 +68,7 @@ export default function ResetPasswordPage() {
 
     const handleMfaVerify = async () => {
         if (mfaCode.length !== 6) {
-            toast.error('Please enter a 6-digit code.');
+            toast.error(t('auth.errors.mfaInvalidCode'));
             return;
         }
 
@@ -85,10 +87,10 @@ export default function ResetPasswordPage() {
 
             if (verifyError) throw verifyError;
 
-            toast.success('MFA verified! You can now set your new password.');
+            toast.success(t('common.success'));
             setPageState('set_password');
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Verification failed.';
+            const message = err instanceof Error ? err.message : t('common.error');
             toast.error(message);
             setMfaCode('');
         } finally {
@@ -100,12 +102,12 @@ export default function ResetPasswordPage() {
         e.preventDefault();
 
         if (password.length < 6) {
-            toast.error('Password must be at least 6 characters.');
+            toast.error(t('common.error'));
             return;
         }
 
         if (password !== confirmPassword) {
-            toast.error('Passwords do not match.');
+            toast.error(t('auth.errors.passwordsDoNotMatch'));
             return;
         }
 
@@ -120,10 +122,10 @@ export default function ResetPasswordPage() {
                 toast.error(error.message);
             } else {
                 setPageState('success');
-                toast.success('Password updated successfully!');
+                toast.success(t('auth.reset.successTitle'));
             }
         } catch {
-            toast.error('An unexpected error occurred.');
+            toast.error(t('auth.errors.genericError'));
         } finally {
             setIsLoading(false);
         }
@@ -148,10 +150,10 @@ export default function ResetPasswordPage() {
                             <CheckCircle2 className="w-7 h-7 text-green-500" />
                         </div>
                         <CardTitle className="text-2xl font-semibold tracking-tight">
-                            Password updated
+                            {t('auth.reset.successTitle')}
                         </CardTitle>
                         <CardDescription className="text-zinc-500">
-                            Your password has been changed successfully.
+                            {t('auth.reset.successDesc')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -159,7 +161,7 @@ export default function ResetPasswordPage() {
                             onClick={() => router.push('/')}
                             className="w-full h-11 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg font-medium"
                         >
-                            Go to Dashboard
+                            {t('common.continue')}
                         </Button>
                     </CardContent>
                     <CardFooter>
@@ -186,18 +188,17 @@ export default function ResetPasswordPage() {
                             <ShieldCheck className="w-7 h-7 text-cyan-500" />
                         </div>
                         <CardTitle className="text-2xl font-semibold tracking-tight">
-                            Verify your identity
+                            {t('auth.mfa.title')}
                         </CardTitle>
                         <CardDescription className="text-zinc-500">
-                            MFA is enabled on your account. Enter the 6-digit code from your
-                            authenticator app to continue.
+                            {t('auth.mfa.subtitle')}
                         </CardDescription>
                     </CardHeader>
 
                     <CardContent className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="mfa-code" className="text-sm font-medium">
-                                Verification Code
+                                {t('auth.mfa.title')}
                             </Label>
                             <div className="relative">
                                 <KeyRound className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
@@ -231,10 +232,10 @@ export default function ResetPasswordPage() {
                             {mfaLoading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Verifying...
+                                    {t('common.loading')}
                                 </>
                             ) : (
-                                'Verify & Continue'
+                                t('auth.mfa.verify')
                             )}
                         </Button>
                     </CardContent>
@@ -262,10 +263,10 @@ export default function ResetPasswordPage() {
                         <KeyRound className="w-7 h-7 text-cyan-500" />
                     </div>
                     <CardTitle className="text-2xl font-semibold tracking-tight">
-                        Set new password
+                        {t('auth.reset.title')}
                     </CardTitle>
                     <CardDescription className="text-zinc-500">
-                        Enter your new password below
+                        {t('auth.reset.subtitle')}
                     </CardDescription>
                 </CardHeader>
 
@@ -273,7 +274,7 @@ export default function ResetPasswordPage() {
                     <form onSubmit={handleUpdatePassword} className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="new-password" className="text-sm font-medium">
-                                New Password
+                                {t('auth.reset.newPassword')}
                             </Label>
                             <div className="relative">
                                 <Lock className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
@@ -302,13 +303,13 @@ export default function ResetPasswordPage() {
                                 </button>
                             </div>
                             <p className="text-xs text-zinc-400">
-                                Must be at least 6 characters
+                                {t('common.optional')}
                             </p>
                         </div>
 
                         <div className="space-y-2">
                             <Label htmlFor="confirm-password" className="text-sm font-medium">
-                                Confirm Password
+                                {t('auth.confirmPassword')}
                             </Label>
                             <div className="relative">
                                 <Lock className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
@@ -337,7 +338,7 @@ export default function ResetPasswordPage() {
                             </div>
                             {confirmPassword && password !== confirmPassword && (
                                 <p className="text-xs text-red-500">
-                                    Passwords do not match
+                                    {t('auth.errors.passwordsDoNotMatch')}
                                 </p>
                             )}
                         </div>
@@ -350,10 +351,10 @@ export default function ResetPasswordPage() {
                             {isLoading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Updating password...
+                                    {t('common.loading')}
                                 </>
                             ) : (
-                                'Update password'
+                                t('auth.reset.submit')
                             )}
                         </Button>
                     </form>

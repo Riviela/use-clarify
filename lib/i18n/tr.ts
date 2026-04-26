@@ -442,4 +442,70 @@ export const tr: Dictionary = {
   },
 
   disclaimer: 'Sonuçlar AI tarafından üretilir ve %100 doğru olmayabilir. Yardımcı araç olarak kullan.',
+
+  disclaimerCard: {
+    title: 'Doğruluk Hakkında Bir Not',
+    body: 'Clarify sektör lideri tespit sunar, ancak hiçbir AI analizi hatasız değildir. Sonuçları kesin bir karar olarak değil, güçlü bir sinyal olarak ele al ve kendi yargınla birleştir.',
+    privacy: 'Gizliliğin önemli: metin yalnızca oturum içinde işlenir, sunucularımızda asla saklanmaz.',
+  },
+
+  toolLayout: {
+    inputTitle: 'Girdi Metni',
+    inputDesc: 'İşlemek istediğin metni buraya yapıştır',
+    result: 'Sonuç',
+    unlimited: 'Sınırsız',
+    wordsCount: '{count} kelime',
+    wordsCountMax: '{count} / {max} kelime',
+    wordsCountUnlimited: '{count} / Sınırsız kelime',
+    limitExceeded: '(Sınır aşıldı!)',
+    freeWords: 'Ücretsiz: {count} kelime',
+    premiumRequired: 'Premium Gerekli ({count} kelime)',
+    freeUserLimit: 'Ücretsiz kullanıcı sınırı: {count} kelime',
+    blurMessageDefault: 'Bu özelliği açmak için Clarify Pro\'ya yükselt',
+  },
+
+  detectorPage: {
+    introTitle: 'Ne Okuduğunu Tam Olarak Bil.',
+    introBody: 'Clarify\'ın hassas motoru her paragrafı tarayarak insan yazısını, AI üretimi olanı ve düzenleneni ortaya çıkarır. Paragraf düzeyinde kararlar. Gerçek güven skorları. Tahmin yok.',
+    errorPrefix: 'Hata',
+    errorGeneric: 'Metin analiz edilemedi',
+  },
+
+  textInput: {
+    label: 'Metnin',
+    placeholder: 'Analiz etmek için metnini buraya yapıştır...',
+    detectButton: 'Metni analiz et',
+    detectingButton: 'Analiz ediliyor...',
+    languageAuto: 'Otomatik algıla',
+    languageEn: 'İngilizce',
+    languageTr: 'Türkçe',
+    languageDe: 'Almanca',
+    languageFr: 'Fransızca',
+    languageEs: 'İspanyolca',
+    languageLabel: 'Dil',
+  },
+
+  results: {
+    overallVerdict: 'Genel Sonuç',
+    confidence: 'Güven',
+    paragraphs: 'Paragraf Analizi',
+    paragraph: 'Paragraf',
+    humanize: 'Bu paragrafı insanlaştır',
+    humanizing: 'İnsanlaştırılıyor...',
+    humanized: 'İnsanlaştırılmış sürüm',
+    closeHumanized: 'Kapat',
+    aiHumanized: 'AI-insanlaştırılmış',
+    classes: {
+      'Human-Written': 'İnsan Yazımı',
+      'AI-Generated': 'AI Üretimi',
+      'AI-Refined': 'AI Düzenlemesi',
+    },
+  },
+
+  upgradeDialog: {
+    title: 'Clarify Pro\'ya Yükselt',
+    description: 'Tüm premium özellikleri aç',
+    cta: 'Planları gör',
+    cancel: 'Belki sonra',
+  },
 };

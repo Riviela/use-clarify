@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { ToolLayout } from '@/components/tool-layout';
+import { useTranslation } from '@/components/language-provider';
 import { Music, Lock } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import { changeTone, ToneType } from '@/actions/tone';
@@ -19,6 +20,7 @@ const TONES: { value: ToneType; label: string; description: string; color: strin
 ];
 
 export default function TonePage() {
+  const { t } = useTranslation();
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -122,14 +124,14 @@ export default function TonePage() {
       )}
 
       <ToolLayout
-        title="Tone Changer"
+        title={t('tools.tone.title')}
         description="Shift your writing's voice in seconds — from boardroom polish to casual charm."
         icon={<Music className="w-5 h-5 text-pink-500" />}
-        inputPlaceholder="Paste your text here..."
+        inputPlaceholder={t('common.placeholder')}
         outputPlaceholder="Rewritten text will appear here..."
-        actionButtonText="Change Tone"
+        actionButtonText={t('tools.tone.change')}
         actionButtonIcon={<Music className="w-5 h-5 mr-2" />}
-        loadingText="Changing tone..."
+        loadingText={t('tools.tone.changing')}
         planType={planType}
         premiumBadge={planType !== 'premium' ? "Professional tone only" : undefined}
         wordCount={wordCount}

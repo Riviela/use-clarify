@@ -4,9 +4,11 @@ import { useState } from 'react';
 import { TextInput } from '@/components/text-input';
 import { ResultsDisplay } from '@/components/results-display';
 import { Disclaimer } from '@/components/disclaimer';
+import { useTranslation } from '@/components/language-provider';
 import type { DetectionResult } from '@/lib/detection/types';
 
 export function Detector() {
+    const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState<DetectionResult | null>(null);
     const [error, setError] = useState<string>('');
@@ -27,14 +29,14 @@ export function Detector() {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to analyze text');
+                throw new Error(errorData.error || t('detectorPage.errorGeneric'));
             }
 
             const data: DetectionResult = await response.json();
             setResult(data);
         } catch (err) {
             setError(
-                err instanceof Error ? err.message : 'An unexpected error occurred'
+                err instanceof Error ? err.message : t('common.error')
             );
         } finally {
             setIsLoading(false);
@@ -46,12 +48,10 @@ export function Detector() {
             {/* Introduction */}
             <div className="text-center space-y-4">
                 <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-white">
-                    Know Exactly What You&apos;re Reading.
+                    {t('detectorPage.introTitle')}
                 </h2>
                 <p className="text-base text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-                    Clarify&apos;s precision engine scans every paragraph to surface
-                    what&apos;s human, what&apos;s AI-generated, and what&apos;s been refined.
-                    Paragraph-level verdicts. Real confidence scores. Zero guesswork.
+                    {t('detectorPage.introBody')}
                 </p>
             </div>
 
@@ -64,7 +64,7 @@ export function Detector() {
             {/* Error Display */}
             {error && (
                 <div className="p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm">
-                    <strong>Error:</strong> {error}
+                    <strong>{t('detectorPage.errorPrefix')}:</strong> {error}
                 </div>
             )}
 

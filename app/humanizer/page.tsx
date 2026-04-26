@@ -10,6 +10,7 @@ import { Loader2, Copy, Check, Lock, Sparkles, AlertCircle, Crown } from 'lucide
 import { humanizeText } from '@/actions/humanize';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useUpgrade } from '@/hooks/use-upgrade';
+import { useTranslation } from '@/components/language-provider';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -36,6 +37,7 @@ const itemVariants = {
 };
 
 export default function HumanizerPage() {
+  const { t } = useTranslation();
     const [inputText, setInputText] = useState('');
     const [outputText, setOutputText] = useState('');
     const [isLoading, setIsLoading] = useState(false);

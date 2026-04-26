@@ -9,8 +9,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { createClient } from '@/utils/supabase/client';
 import { toast } from 'sonner';
 import { Loader2, Mail, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { useTranslation } from '@/components/language-provider';
 
 export default function ForgotPasswordPage() {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [emailSent, setEmailSent] = useState(false);
@@ -30,10 +32,10 @@ export default function ForgotPasswordPage() {
                 toast.error(error.message);
             } else {
                 setEmailSent(true);
-                toast.success('Reset link sent! Check your inbox.');
+                toast.success(t('auth.forgot.sentTitle'));
             }
         } catch {
-            toast.error('An unexpected error occurred.');
+            toast.error(t('auth.errors.genericError'));
         } finally {
             setIsLoading(false);
         }
@@ -49,20 +51,13 @@ export default function ForgotPasswordPage() {
                                 <CheckCircle2 className="w-7 h-7 text-green-500" />
                             </div>
                             <CardTitle className="text-2xl font-semibold tracking-tight">
-                                Check your email
+                                {t('auth.forgot.sentTitle')}
                             </CardTitle>
                             <CardDescription className="text-zinc-500">
-                                We sent a password reset link to{' '}
-                                <span className="font-medium text-zinc-700 dark:text-zinc-300">
-                                    {email}
-                                </span>
+                                {t('auth.forgot.sentDesc', { email })}
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <p className="text-sm text-zinc-500 text-center">
-                                Click the link in the email to reset your password. 
-                                If you don&apos;t see it, check your spam folder.
-                            </p>
                             <Button
                                 variant="outline"
                                 className="w-full h-11 rounded-lg"
@@ -71,7 +66,7 @@ export default function ForgotPasswordPage() {
                                     setEmail('');
                                 }}
                             >
-                                Try a different email
+                                {t('common.tryAgain')}
                             </Button>
                         </CardContent>
                         <CardFooter>
@@ -80,7 +75,7 @@ export default function ForgotPasswordPage() {
                                 className="w-full text-sm text-center text-zinc-400 hover:text-zinc-600 flex items-center justify-center gap-1"
                             >
                                 <ArrowLeft className="w-3.5 h-3.5" />
-                                Back to sign in
+                                {t('auth.forgot.backToLogin')}
                             </Link>
                         </CardFooter>
                     </>
@@ -88,24 +83,24 @@ export default function ForgotPasswordPage() {
                     <>
                         <CardHeader className="space-y-1 text-center">
                             <CardTitle className="text-2xl font-semibold tracking-tight">
-                                Forgot your password?
+                                {t('auth.forgot.title')}
                             </CardTitle>
                             <CardDescription className="text-zinc-500">
-                                Enter your email and we&apos;ll send you a reset link
+                                {t('auth.forgot.subtitle')}
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <form onSubmit={handleResetPassword} className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="email" className="text-sm font-medium">
-                                        Email
+                                        {t('auth.email')}
                                     </Label>
                                     <div className="relative">
                                         <Mail className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
                                         <Input
                                             id="email"
                                             type="email"
-                                            placeholder="name@example.com"
+                                            placeholder={t('auth.emailPlaceholder')}
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             className="pl-10 h-11 bg-white border-zinc-200 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
@@ -123,10 +118,10 @@ export default function ForgotPasswordPage() {
                                     {isLoading ? (
                                         <>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Sending reset link...
+                                            {t('common.loading')}
                                         </>
                                     ) : (
-                                        'Send reset link'
+                                        t('auth.forgot.submit')
                                     )}
                                 </Button>
                             </form>
@@ -137,7 +132,7 @@ export default function ForgotPasswordPage() {
                                 className="w-full text-sm text-center text-zinc-400 hover:text-zinc-600 flex items-center justify-center gap-1"
                             >
                                 <ArrowLeft className="w-3.5 h-3.5" />
-                                Back to sign in
+                                {t('auth.forgot.backToLogin')}
                             </Link>
                         </CardFooter>
                     </>

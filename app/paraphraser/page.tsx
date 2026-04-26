@@ -9,10 +9,12 @@ import { Loader2, Copy, Check, Lock, RefreshCw, AlertCircle, Crown } from 'lucid
 import { paraphraseText, ParaphraseResult } from '@/actions/paraphrase';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useUpgrade } from '@/hooks/use-upgrade';
+import { useTranslation } from '@/components/language-provider';
 
 const FREE_TIER_WORD_LIMIT = 100;
 
 export default function ParaphraserPage() {
+  const { t } = useTranslation();
     const [inputText, setInputText] = useState('');
     const [outputText, setOutputText] = useState('');
     const [isLoading, setIsLoading] = useState(false);

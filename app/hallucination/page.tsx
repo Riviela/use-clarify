@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { ToolLayout } from '@/components/tool-layout';
+import { useTranslation } from '@/components/language-provider';
 import { Search, AlertTriangle, Lock, Eye, EyeOff, Wand2, CheckCircle } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import { detectHallucinations } from '@/actions/hallucination';
@@ -13,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { useUpgrade } from '@/hooks/use-upgrade';
 
 export default function HallucinationPage() {
+  const { t } = useTranslation();
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -129,7 +131,7 @@ export default function HallucinationPage() {
       )}
 
       <ToolLayout
-        title="Hallucination Detector"
+        title={t('tools.hallucination.title')}
         description="Surface factual inconsistencies and dubious claims before they reach your audience."
         icon={<Search className="w-5 h-5 text-red-500" />}
         inputPlaceholder="Paste your text here..."

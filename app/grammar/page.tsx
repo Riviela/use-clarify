@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { ToolLayout } from '@/components/tool-layout';
+import { useTranslation } from '@/components/language-provider';
 import { CheckCircle, AlertCircle } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import { checkGrammar } from '@/actions/grammar';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function GrammarPage() {
+  const { t } = useTranslation();
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -48,11 +50,11 @@ export default function GrammarPage() {
         setOutputText(result.text);
         setCorrectionsCount(result.correctionsCount || 0);
       } else {
-        setError(result.error || 'Operation failed, please try again.');
+        setError(result.error || t('common.error'));
       }
     } catch (err) {
       console.error('Grammar error:', err);
-      setError('Operation failed, please try again.');
+      setError(t('common.error'));
     } finally {
       setIsLoading(false);
     }
@@ -83,14 +85,14 @@ export default function GrammarPage() {
       )}
 
       <ToolLayout
-        title="Grammar Checker"
-        description="Eliminate errors, sharpen clarity, and elevate every sentence."
+        title={t('tools.grammar.title')}
+        description={t('tools.grammar.subtitle')}
         icon={<CheckCircle className="w-5 h-5 text-green-500" />}
-        inputPlaceholder="Paste your text here..."
-        outputPlaceholder="Polished text will appear here..."
-        actionButtonText="Check Grammar"
+        inputPlaceholder={t('common.placeholder')}
+        outputPlaceholder={t('tools.grammar.result')}
+        actionButtonText={t('tools.grammar.check')}
         actionButtonIcon={<CheckCircle className="w-5 h-5 mr-2" />}
-        loadingText="Checking..."
+        loadingText={t('tools.grammar.checking')}
         planType={planType}
         premiumBadge={planType !== 'premium' ? "Basic corrections only" : undefined}
         wordCount={wordCount}
