@@ -1,6 +1,9 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Mail } from 'lucide-react';
+import { useTranslation } from '@/components/language-provider';
 
 function XIcon({ className }: { className?: string }) {
   return (
@@ -32,19 +35,21 @@ function YouTubeIcon({ className }: { className?: string }) {
   );
 }
 
-const productLinks = [
-  { label: 'Features', href: '/#features' },
-  { label: 'Pricing', href: '/pricing' },
-  { label: 'FAQ', href: '/#faq' },
-];
-
-const legalLinks = [
-  { label: 'Privacy Policy', href: '/privacy' },
-  { label: 'Terms of Service', href: '/terms' },
-  { label: 'Refund Policy', href: '/refund' },
-];
-
 export function Footer() {
+  const { t } = useTranslation();
+
+  const productLinks = [
+    { label: t('footer.features'), href: '/#features' },
+    { label: t('navbar.pricing'), href: '/pricing' },
+    { label: t('footer.faq'), href: '/#faq' },
+  ];
+
+  const legalLinks = [
+    { label: t('footer.privacyPolicy'), href: '/privacy' },
+    { label: t('footer.termsOfService'), href: '/terms' },
+    { label: t('footer.refundPolicy'), href: '/refund' },
+  ];
+
   return (
     <footer className="border-t border-zinc-100 dark:border-zinc-800 mt-24 bg-zinc-50/50 dark:bg-zinc-900/50">
       <div className="container mx-auto px-4 py-12 md:py-16">
@@ -61,18 +66,17 @@ export function Footer() {
               />
             </Link>
             <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400 max-w-xs">
-              Detect AI-generated content, humanize robotic text, and refine
-              your writing — all in one platform.
+              {t('footer.tagline')}
             </p>
             <p className="text-xs text-zinc-400 dark:text-zinc-500">
-              &copy; {new Date().getFullYear()} Clarify. All rights reserved.
+              {t('footer.copyright', { year: new Date().getFullYear() })}
             </p>
           </div>
 
           {/* ── Product ── */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-white tracking-wide uppercase">
-              Product
+              {t('footer.product')}
             </h3>
             <ul className="space-y-2.5">
               {productLinks.map((link) => (
@@ -91,7 +95,7 @@ export function Footer() {
           {/* ── Legal ── */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-white tracking-wide uppercase">
-              Legal
+              {t('footer.legal')}
             </h3>
             <ul className="space-y-2.5">
               {legalLinks.map((link) => (
@@ -110,7 +114,7 @@ export function Footer() {
           {/* ── Contact ── */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-white tracking-wide uppercase">
-              Contact
+              {t('footer.contact')}
             </h3>
             <ul className="space-y-2.5">
               <li>

@@ -11,92 +11,30 @@ import {
   ShieldAlert,
   RefreshCw,
 } from 'lucide-react';
-
-const features = [
-  {
-    icon: ScanSearch,
-    title: 'AI Content Detector',
-    description:
-      'Paragraph-level analysis with confidence scores. Detect human, AI-generated, and AI-refined text with surgical precision.',
-    href: '/',
-    color: 'text-cyan-500',
-    bg: 'bg-cyan-50 dark:bg-cyan-950/40',
-  },
-  {
-    icon: UserCheck,
-    title: 'AI Humanizer',
-    description:
-      'Transform AI-generated text into natural, human-like writing. Maintain meaning while removing robotic patterns.',
-    href: '/humanizer',
-    color: 'text-violet-500',
-    bg: 'bg-violet-50 dark:bg-violet-950/40',
-    premium: true,
-  },
-  {
-    icon: SpellCheck,
-    title: 'Grammar Checker',
-    description:
-      'Fix spelling, grammar, and punctuation errors. Premium users get style, fluency, and tone suggestions.',
-    href: '/grammar',
-    color: 'text-green-500',
-    bg: 'bg-green-50 dark:bg-green-950/40',
-  },
-  {
-    icon: FileText,
-    title: 'Summarizer',
-    description:
-      'Condense long texts into clear, digestible summaries. Choose bullet points, paragraph, or executive summary formats.',
-    href: '/summarizer',
-    color: 'text-blue-500',
-    bg: 'bg-blue-50 dark:bg-blue-950/40',
-  },
-  {
-    icon: Expand,
-    title: 'Text Expander',
-    description:
-      'Elaborate short texts into detailed, well-structured content. Perfect for fleshing out ideas and outlines.',
-    href: '/expander',
-    color: 'text-amber-500',
-    bg: 'bg-amber-50 dark:bg-amber-950/40',
-  },
-  {
-    icon: Palette,
-    title: 'Tone Changer',
-    description:
-      'Shift the tone of your writing — professional, casual, academic, witty, or aggressive. Match any audience.',
-    href: '/tone',
-    color: 'text-pink-500',
-    bg: 'bg-pink-50 dark:bg-pink-950/40',
-  },
-  {
-    icon: ShieldAlert,
-    title: 'Hallucination Detector',
-    description:
-      'Identify logical inconsistencies, unsupported claims, and factual errors in AI-generated text.',
-    href: '/hallucination',
-    color: 'text-red-500',
-    bg: 'bg-red-50 dark:bg-red-950/40',
-  },
-  {
-    icon: RefreshCw,
-    title: 'Paraphraser',
-    description:
-      'Rewrite text with different words while preserving the original meaning. Great for avoiding repetition.',
-    href: '/paraphraser',
-    color: 'text-indigo-500',
-    bg: 'bg-indigo-50 dark:bg-indigo-950/40',
-  },
-];
+import { useTranslation } from '@/components/language-provider';
 
 export function FeaturesSection() {
+  const { t } = useTranslation();
+
+  const features = [
+    { icon: ScanSearch, title: t('features.detector.title'), description: t('features.detector.desc'), href: '/', color: 'text-cyan-500', bg: 'bg-cyan-50 dark:bg-cyan-950/40' },
+    { icon: UserCheck, title: t('features.humanizer.title'), description: t('features.humanizer.desc'), href: '/humanizer', color: 'text-violet-500', bg: 'bg-violet-50 dark:bg-violet-950/40', premium: true },
+    { icon: SpellCheck, title: t('features.grammar.title'), description: t('features.grammar.desc'), href: '/grammar', color: 'text-green-500', bg: 'bg-green-50 dark:bg-green-950/40' },
+    { icon: FileText, title: t('features.summarizer.title'), description: t('features.summarizer.desc'), href: '/summarizer', color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-950/40' },
+    { icon: Expand, title: t('features.expander.title'), description: t('features.expander.desc'), href: '/expander', color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-950/40' },
+    { icon: Palette, title: t('features.tone.title'), description: t('features.tone.desc'), href: '/tone', color: 'text-pink-500', bg: 'bg-pink-50 dark:bg-pink-950/40' },
+    { icon: ShieldAlert, title: t('features.hallucination.title'), description: t('features.hallucination.desc'), href: '/hallucination', color: 'text-red-500', bg: 'bg-red-50 dark:bg-red-950/40' },
+    { icon: RefreshCw, title: t('features.paraphraser.title'), description: t('features.paraphraser.desc'), href: '/paraphraser', color: 'text-indigo-500', bg: 'bg-indigo-50 dark:bg-indigo-950/40' },
+  ];
+
   return (
     <section id="features" className="scroll-mt-24">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
-          Everything You Need, In One Platform
+          {t('features.sectionTitle')}
         </h2>
         <p className="mt-3 text-base text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto">
-          Eight powerful AI tools designed to analyze, transform, and perfect your writing.
+          {t('features.sectionSubtitle')}
         </p>
       </div>
 
@@ -116,7 +54,7 @@ export function FeaturesSection() {
               {feature.title}
               {feature.premium && (
                 <span className="text-[10px] font-bold uppercase tracking-wider text-amber-500 bg-amber-50 dark:bg-amber-950/40 px-1.5 py-0.5 rounded">
-                  Pro
+                  {t('common.pro')}
                 </span>
               )}
             </h3>

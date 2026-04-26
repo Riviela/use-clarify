@@ -5,6 +5,8 @@ import { Toaster } from '@/components/ui/sonner';
 import { createClient } from '@/utils/supabase/server';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { LanguageProvider } from '@/components/language-provider';
+import { getLocale } from '@/lib/i18n';
 import { User } from '@supabase/supabase-js';
 
 interface UserProfile {
@@ -124,22 +126,26 @@ export default async function RootLayout({
         console.warn('Supabase auth not available, continuing without authentication');
     }
 
+    const locale = await getLocale();
+
     return (
-        <html lang="en">
+        <html lang={locale}>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
             >
-                <div className="min-h-screen bg-white dark:bg-zinc-950">
-                    <Navbar user={user} userProfile={userProfile} />
+                <LanguageProvider initialLocale={locale}>
+                    <div className="min-h-screen bg-white dark:bg-zinc-950">
+                        <Navbar user={user} userProfile={userProfile} />
 
-                    <main className="container mx-auto px-4 py-12" role="main">
-                        {children}
-                    </main>
+                        <main className="container mx-auto px-4 py-12" role="main">
+                            {children}
+                        </main>
 
-                    <Toaster />
+                        <Toaster />
 
-                    <Footer />
-                </div>
+                        <Footer />
+                    </div>
+                </LanguageProvider>
             </body>
         </html>
     );

@@ -17,6 +17,8 @@ import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import { UserCircle, LogOut, ChevronDown, Settings, Crown, Shield } from 'lucide-react';
 import Image from 'next/image';
+import { LanguageSwitcher } from '@/components/language-switcher';
+import { useTranslation } from '@/components/language-provider';
 
 interface UserProfile {
     plan_type: string;
@@ -30,23 +32,25 @@ interface NavbarProps {
     userProfile?: UserProfile | null;
 }
 
-const navLinks = [
-    { href: '/', label: 'Detector' },
-    { href: '/grammar', label: 'Grammar' },
-    { href: '/summarizer', label: 'Summarizer' },
-    { href: '/expander', label: 'Expander' },
-    { href: '/tone', label: 'Tone' },
-    { href: '/hallucination', label: 'Hallucination' },
-    { href: '/paraphraser', label: 'Paraphraser' },
-    { href: '/humanizer', label: 'Humanizer' },
-    { href: '/pricing', label: 'Pricing' },
-];
 
 export function Navbar({ user, userProfile }: NavbarProps) {
     const pathname = usePathname();
     const router = useRouter();
     const supabase = createClient();
-    
+    const { t } = useTranslation();
+
+    const navLinks = [
+        { href: '/', label: t('navbar.detector') },
+        { href: '/grammar', label: t('navbar.grammar') },
+        { href: '/summarizer', label: t('navbar.summarizer') },
+        { href: '/expander', label: t('navbar.expander') },
+        { href: '/tone', label: t('navbar.tone') },
+        { href: '/hallucination', label: t('navbar.hallucination') },
+        { href: '/paraphraser', label: t('navbar.paraphraser') },
+        { href: '/humanizer', label: t('navbar.humanizer') },
+        { href: '/pricing', label: t('navbar.pricing') },
+    ];
+
     // Derive premium status from plan_type
     const planType = userProfile?.plan_type ?? 'free';
     const isPremiumPlan = planType === 'premium';
@@ -112,6 +116,7 @@ export function Navbar({ user, userProfile }: NavbarProps) {
 
                         {/* Auth Section */}
                         <div className="flex items-center gap-2">
+                            <LanguageSwitcher />
                             <AnimatePresence mode="wait">
                                 {user ? (
                                     <motion.div
@@ -139,7 +144,7 @@ export function Navbar({ user, userProfile }: NavbarProps) {
                                                         >
                                                             <Shield className="h-3 w-3" />
                                                         </motion.div>
-                                                        ADMIN
+                                                        {t('common.admin')}
                                                     </Badge>
                                                 </Link>
                                             </motion.div>
@@ -194,7 +199,7 @@ export function Navbar({ user, userProfile }: NavbarProps) {
                                                             className="mt-1.5 flex sm:hidden w-fit items-center gap-1 bg-[#B60000] text-white border-0 font-bold text-[10px] px-2 py-0.5"
                                                         >
                                                             <Shield className="h-2.5 w-2.5" />
-                                                            ADMIN
+                                                            {t('common.admin')}
                                                         </Badge>
                                                     )}
                                                     {isPremiumPlan && !isAdmin && (
@@ -214,7 +219,7 @@ export function Navbar({ user, userProfile }: NavbarProps) {
                                                             className="cursor-pointer text-[#B60000] dark:text-red-400 focus:text-[#9a0000] dark:focus:text-red-300 font-semibold"
                                                         >
                                                             <Shield className="mr-2 h-4 w-4" />
-                                                            Admin Console
+                                                            {t('navbar.adminConsole')}
                                                         </DropdownMenuItem>
                                                         <DropdownMenuSeparator />
                                                     </>
@@ -224,14 +229,14 @@ export function Navbar({ user, userProfile }: NavbarProps) {
                                                     className="cursor-pointer"
                                                 >
                                                     <UserCircle className="mr-2 h-4 w-4" />
-                                                    Profile
+                                                    {t('navbar.profile')}
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem
                                                     onClick={() => router.push('/settings')}
                                                     className="cursor-pointer"
                                                 >
                                                     <Settings className="mr-2 h-4 w-4" />
-                                                    Settings
+                                                    {t('navbar.settings')}
                                                 </DropdownMenuItem>
                                                 <DropdownMenuSeparator />
                                                 <DropdownMenuItem
@@ -239,7 +244,7 @@ export function Navbar({ user, userProfile }: NavbarProps) {
                                                     className="text-red-600 cursor-pointer"
                                                 >
                                                     <LogOut className="mr-2 h-4 w-4" />
-                                                    Sign out
+                                                    {t('common.signOut')}
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
@@ -259,7 +264,7 @@ export function Navbar({ user, userProfile }: NavbarProps) {
                                             variant="default"
                                             className="bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100 rounded-lg"
                                         >
-                                            <Link href="/login">Sign in</Link>
+                                            <Link href="/login">{t('common.signIn')}</Link>
                                         </Button>
                                     </motion.div>
                                 )}
