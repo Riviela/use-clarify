@@ -45,18 +45,60 @@ function LoginPageContent() {
         toast.error(messages[oauthError] || decodeURIComponent(oauthError));
     }, [oauthError]);
 
+    /**
+     * Convert any thrown / returned auth error into a human-readable string.
+     * Supabase auth errors sometimes serialize to "{}" which is useless.
+     */
+    const formatAuthError = (err: unknown): string => {
+        if (!err) return t('auth.errors.genericError');
+        if (typeof err === 'string') return err;
+        if (err instanceof Error && err.message) return err.message;
+
+        const e = err as { message?: string; code?: string; status?: number; name?: string };
+        if (e.message && typeof e.message === 'string' && e.message.length > 0) return e.message;
+
+        // Map known Supabase error codes / statuses to friendly messages
+        if (e.code === 'over_email_send_rate_limit' || e.status === 429) {
+            return 'Too many sign-up attempts. Please wait a minute and try again.';
+        }
+        if (e.code === 'request_timeout' || e.status === 504 || e.name === 'AbortError') {
+            return 'The server took too long to respond. Please try again in a moment.';
+        }
+        if (e.status === 0 || e.name === 'TypeError' || e.name === 'NetworkError') {
+            return 'Network error — check your internet connection and try again.';
+        }
+        return t('auth.errors.genericError');
+    };
+
     const handleEmailAuth = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Client-side guards — fail fast before hitting Supabase
+        if (isSignUp) {
+            if (password.length < 6) {
+                toast.error('Password must be at least 6 characters long.');
+                return;
+            }
+            if (password !== confirmPassword) {
+                toast.error(t('auth.errors.passwordsDoNotMatch'));
+                return;
+            }
+        }
+
         setIsLoading(true);
+
+        // Hard timeout — Supabase signUp sometimes hangs ~10s waiting for SMTP.
+        // We surface a clear message before the server times out.
+        const timeoutMs = 12000;
+        const timeoutId = setTimeout(() => {
+            toast.error(
+                'Sign-up is taking longer than expected. Please try again — if the problem persists, contact support.'
+            );
+            setIsLoading(false);
+        }, timeoutMs);
 
         try {
             if (isSignUp) {
-                if (password !== confirmPassword) {
-                    toast.error('Passwords do not match.');
-                    setIsLoading(false);
-                    return;
-                }
-
                 const { data, error } = await supabase.auth.signUp({
                     email,
                     password,
@@ -65,16 +107,18 @@ function LoginPageContent() {
                     },
                 });
 
+                clearTimeout(timeoutId);
+
                 if (error) {
-                    toast.error(error.message);
+                    toast.error(formatAuthError(error));
                 } else if (data.session) {
-                    // Email verification is disabled - user logged in immediately
-                    toast.success('Account created successfully!');
+                    // Email confirmation disabled — user logged in immediately
+                    toast.success(t('auth.errors.accountCreated'));
                     router.push(redirect);
                     router.refresh();
                 } else {
-                    // Email verification is enabled - email sent to user
-                    toast.success('Check your email to confirm your account');
+                    // Email confirmation enabled — confirmation email sent
+                    toast.success(t('auth.errors.checkEmail'));
                 }
             } else {
                 const { error } = await supabase.auth.signInWithPassword({
@@ -82,31 +126,34 @@ function LoginPageContent() {
                     password,
                 });
 
+                clearTimeout(timeoutId);
+
                 if (error) {
-                    toast.error(error.message);
+                    toast.error(formatAuthError(error));
                 } else {
                     // Check if MFA is required
                     const { data: aalData } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
 
                     if (aalData && aalData.nextLevel === 'aal2' && aalData.currentLevel === 'aal1') {
-                        // User has MFA enrolled — need verification
                         const { data: factorsData } = await supabase.auth.mfa.listFactors();
                         const totpFactor = factorsData?.totp?.[0];
 
                         if (totpFactor) {
                             setMfaFactorId(totpFactor.id);
                             setMfaRequired(true);
-                            return; // Don't redirect yet
+                            setIsLoading(false);
+                            return;
                         }
                     }
 
-                    toast.success('Successfully signed in');
+                    toast.success(t('common.signIn') + ' ✓');
                     router.push(redirect);
                     router.refresh();
                 }
             }
         } catch (error) {
-            toast.error('An unexpected error occurred');
+            clearTimeout(timeoutId);
+            toast.error(formatAuthError(error));
         } finally {
             setIsLoading(false);
         }
